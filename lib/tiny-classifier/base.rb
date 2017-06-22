@@ -26,25 +26,28 @@ class TinyClassifierBase
   end
 
   def parse_command_line_options(command_line_options)
-    option_parser = create_option_parser
     option_parser.parse!(command_line_options)
   end
 
   private
+  def option_parser
+    @option_parser ||= create_option_parser
+  end
+
   def create_option_parser
     parser = OptionParser.new
 
-    parser.on("--data-dir=PATH",
+    parser.on("-d PATH", "--data-dir=PATH",
               "Path to the directory to store training data file (default=current directory)") do |data_dir|
       @data_dir = data_dir
     end
 
-    parser.on("--labels=LABELS",
+    parser.on("-l LABELS", "--labels=LABELS",
               "List of labels (comma-separated)") do |labels|
       @labels = normalize_labels(labels)
     end
 
-    parser.on("--tokenizer=TOKENIZER",
+    parser.on("-t TOKENIZER", "--tokenizer=TOKENIZER",
               "Tokenizer (default=#{@tokenizer})") do |tokenizer|
       @tokenizer = tokenizer.downcase.to_sym
     end
