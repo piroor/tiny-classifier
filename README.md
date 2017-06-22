@@ -6,7 +6,7 @@ tiny-classifier
 
 ## Description
 
-Command line tool to run text classifier based on naive bayes.
+On-memory text classifier command line tool, based on naive bayes.
 
 ## Install
 
