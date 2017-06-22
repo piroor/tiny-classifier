@@ -16,12 +16,11 @@
 require "pathname"
 require "optparse"
 require "classifier-reborn"
+require "tiny-classifier/tokenizer"
 
 class TinyClassifierBase
-  TOKENIZERS = [:none, :mecab]
-
   def initialize
-    @tokenizer = :none
+    @tokenizer = Tokenizer.new
     @data_dir = Dir.pwd
   end
 
@@ -53,7 +52,7 @@ class TinyClassifierBase
 
     parser.on("-t TOKENIZER", "--tokenizer=TOKENIZER",
               "Tokenizer (default=#{@tokenizer})") do |tokenizer|
-      @tokenizer = tokenizer.downcase.to_sym
+      @tokenizer.type = tokenizer.downcase.to_sym
     end
 
     parser
@@ -109,26 +108,7 @@ class TinyClassifierBase
       exit(false)
     end
     @input = $stdin.readlines.join(" ")
-    tokenize
+    @tokenizer.tokenize(@input)
     @input.strip!
-  end
-
-  def tokenize
-    case @tokenizer
-    when :mecab
-      tokenize_by_mecab
-    end
-  end
-
-  def tokenize_by_mecab
-    require "natto"
-    natto = Natto::MeCab.new
-    terms = []
-    natto.parse(@input) do |term|
-      if term.feature =~ /\A(名詞|形容詞|動詞)/
-        terms << term.surface
-      end
-    end
-    @input = terms.join(" ").strip
   end
 end
