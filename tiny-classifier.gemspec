@@ -21,7 +21,7 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "lib"))
 
 Gem::Specification.new do |spec|
   spec.name = "tiny-classifier"
-  spec.version = "1.0"
+  spec.version = "1.1"
   spec.homepage = "https://github.com/piroor/tiny-classifier"
   spec.authors = ["YUKI \"Piro\" Hiroshi"]
   spec.email = ["piro.outsider.reflex@gmail.com"]
