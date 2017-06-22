@@ -27,6 +27,11 @@ class Trainer < TinyClassifierBase
     end
   end
 
+  def initialize
+    super
+    option_parser.banner += "LABEL"
+  end
+
   def run(params)
     @label = params[:label]
     @input = params[:input]
