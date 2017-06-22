@@ -21,45 +21,45 @@ module TinyClassifier
       def run(argv=nil)
         argv ||= ARGV.dup
         trainer = new
-        *labels = trainer.parse_command_line_options(argv)
-        trainer.run(label: labels.first)
+        *categories = trainer.parse_command_line_options(argv)
+        trainer.run(category: categories.first)
       end
     end
 
     def initialize
       super
-      option_parser.banner += " LABEL"
+      option_parser.banner += " CATEGORY"
     end
 
     def run(params)
-      @label = params[:label]
-      prepare_label
+      @category = params[:category]
+      prepare_category
       if input.empty?
         STDERR.puts("Error: No effective input.")
         false
       else
-        classifier.send("train_#{@label}", input)
+        classifier.send("train_#{@category}", input)
         save
         true
       end
     end
 
     private
-    def prepare_label
-      unless @label
-        STDERR.puts("Error: You need to specify the label for the input.")
+    def prepare_category
+      unless @category
+        STDERR.puts("Error: You need to specify the category for the input.")
         exit(false)
       end
 
-      @label = @label.downcase.strip
+      @category = @category.downcase.strip
 
-      if @label.empty?
-        STDERR.puts("Error: You need to specify the label for the input.")
+      if @category.empty?
+        STDERR.puts("Error: You need to specify the category for the input.")
         exit(false)
       end
 
-      unless @labels.include?(@label.capitalize)
-        STDERR.puts("Error: You need to specify one of valid labels: #{@labels.join(', ')}")
+      unless @categories.include?(@category.capitalize)
+        STDERR.puts("Error: You need to specify one of valid categories: #{@categories.join(', ')}")
         exit(false)
       end
     end
