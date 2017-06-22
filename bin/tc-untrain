@@ -17,4 +17,4 @@
 
 require "tiny-classifier/untrainer"
 
-TinyClassifier::Unrrainer.run
+TinyClassifier::Untrainer.run
