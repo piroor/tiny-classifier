@@ -18,7 +18,7 @@ require "tiny-classifier/classifier"
 require "fileutils"
 require "base64"
 
-class ClassifierGenerator < TinyClassifierBase
+class TinyClassifier::ClassifierGenerator < TinyClassifier::Base
   class << self
     def run(argv=nil)
       argv ||= ARGV.dup

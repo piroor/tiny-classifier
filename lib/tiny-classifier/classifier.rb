@@ -15,7 +15,7 @@
 
 require "tiny-classifier/base"
 
-class Classifier < TinyClassifierBase
+class TinyClassifier::Classifier < TinyClassifier::Base
   class << self
     def run(argv=nil)
       argv ||= ARGV.dup

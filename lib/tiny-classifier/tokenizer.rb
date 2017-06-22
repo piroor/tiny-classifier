@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-class Tokenizer
+class TinyClassifier::Tokenizer
   TOKENIZERS = [:none, :mecab]
 
   attr_accessor :type

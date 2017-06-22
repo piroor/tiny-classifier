@@ -17,4 +17,4 @@
 
 require "tiny-classifier/classifier"
 
-Classifier.run
+TinyClassifier::Classifier.run
