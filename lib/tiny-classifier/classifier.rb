@@ -31,11 +31,12 @@ class Classifier < TinyClassifierBase
     @input = params[:input]
     prepare_input
     if @input.empty?
-      exit(1)
+      STDERR.puts("Error: No effective input.")
+      false
     else
       label = classifier.classify(@input)
       puts label.downcase
-      exit(0)
+      true
     end
   end
 end

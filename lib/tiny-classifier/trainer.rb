@@ -30,17 +30,38 @@ class Trainer < TinyClassifierBase
   def run(params)
     @label = params[:label]
     @input = params[:input]
+    prepare_label
     prepare_input
     if @input.empty?
-      exit(1)
+      STDERR.puts("Error: No effective input.")
+      false
     else
-      classifier.send("train_#{@label.downcase}", @input)
+      classifier.send("train_#{@label}", @input)
       save
-      exit(0)
+      true
     end
   end
 
   private
+  def prepare_label
+    unless @label
+      STDERR.puts("Error: You need to specify the label for the input.")
+      exit(false)
+    end
+
+    @label = @label.downcase.strip
+
+    if @label.empty?
+      STDERR.puts("Error: You need to specify the label for the input.")
+      exit(false)
+    end
+
+    unless @labels.include?(@label)
+      STDERR.puts("Error: You need to specify one of valid labels: #{@labels.join(', ')}")
+      exit(false)
+    end
+  end
+
   def save
     data = Marshal.dump(classifier)
     File.open(data_file_path, "w") do |file|
