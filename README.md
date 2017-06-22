@@ -44,13 +44,13 @@ positive
 
 ### Common
 
-`--labels=LABELS` (required)
+`-l`, `--labels=LABELS` (required)
 :  A comman-separated list of labels. You should use only alphabetic characters. (Non-alphabetical characters will cause problems.)
 
-`--data-dir=PATH` (optional)
+`-d`, `--data-dir=PATH` (optional)
 : The path to the directory that the training data to be saved. The current directory.
 
-`--tokenizer=TOKENIZER` (optional)
+`-t`, `--tokenizer=TOKENIZER` (optional)
 : Tokenizer for input which is not separated by whitespaces. Possible values are: only `mecab`.
 
 ### Trainer
