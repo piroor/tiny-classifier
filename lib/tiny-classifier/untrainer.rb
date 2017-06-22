@@ -21,7 +21,7 @@ module TinyClassifier
       @category = params[:category]
       prepare_category
       if input.empty?
-        STDERR.puts("Error: No effective input.")
+        error("Error: No effective input.")
         false
       else
         classifier.send("untrain_#{@category}", input)

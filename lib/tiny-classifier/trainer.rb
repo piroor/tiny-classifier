@@ -35,7 +35,7 @@ module TinyClassifier
       @category = params[:category]
       prepare_category
       if input.empty?
-        STDERR.puts("Error: No effective input.")
+        error("Error: No effective input.")
         false
       else
         classifier.send("train_#{@category}", input)
@@ -47,19 +47,19 @@ module TinyClassifier
     private
     def prepare_category
       unless @category
-        STDERR.puts("Error: You need to specify the category for the input.")
+        error("Error: You need to specify the category for the input.")
         exit(false)
       end
 
       @category = @category.downcase.strip
 
       if @category.empty?
-        STDERR.puts("Error: You need to specify the category for the input.")
+        error("Error: You need to specify the category for the input.")
         exit(false)
       end
 
       unless @categories.include?(@category.capitalize)
-        STDERR.puts("Error: You need to specify one of valid categories: #{@categories.join(', ')}")
+        error("Error: You need to specify one of valid categories: #{@categories.join(', ')}")
         exit(false)
       end
     end

@@ -25,6 +25,7 @@ module TinyClassifier
     def initialize
       @tokenizer = Tokenizer.new
       @data_dir = Dir.pwd
+      @verbose = false
     end
 
     def parse_command_line_options(command_line_options)
@@ -51,11 +52,17 @@ module TinyClassifier
       parser.on("-c CATEGORIES", "--categories=CATEGORIES",
                 "List of categories (comma-separated)") do |categories|
         @categories = normalize_categories(categories)
+        log("categories: #{@categories}")
       end
 
       parser.on("-t TOKENIZER", "--tokenizer=TOKENIZER",
                 "Tokenizer (default=#{@tokenizer})") do |tokenizer|
         @tokenizer.type = tokenizer
+      end
+
+      parser.on("-v", "--verbose",
+                "Output internal information (for debugging)") do |verbose|
+        @verbose = verbose
       end
 
       parser
@@ -107,12 +114,22 @@ module TinyClassifier
 
     def prepare_input
       unless File.pipe?(STDIN)
-        STDERR.puts("Error: No effective input. You need to give any input via the STDIN.")
+        error("Error: No effective input. You need to give any input via the STDIN.")
         exit(false)
       end
       @input = $stdin.readlines.join(" ")
       @tokenizer.tokenize(@input)
       @input.strip!
+      log("input: #{@input}")
+      @input
+    end
+
+    def error(message)
+      STDERR.puts(message)
+    end
+
+    def log(message)
+      STDERR.puts(message) if @verbose
     end
   end
 end

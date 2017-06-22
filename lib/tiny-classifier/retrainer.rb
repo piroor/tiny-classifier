@@ -29,7 +29,7 @@ module TinyClassifier
 
     def run(params)
       if input.empty?
-        STDERR.puts("Error: No effective input.")
+        error("Error: No effective input.")
         false
       else
         @category = params[:wrong]

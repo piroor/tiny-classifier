@@ -30,7 +30,7 @@ module TinyClassifier
 
     def run
       if input.empty?
-        STDERR.puts("Error: No effective input.")
+        error("Error: No effective input.")
         false
       else
         category = classifier.classify(input)
