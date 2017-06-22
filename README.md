@@ -14,6 +14,14 @@ Command line tool to run text classifier based on naive bayes.
 % gem install tiny-classifier
 ```
 
+If you hope to use `--tokenizer=mecab`, you need to install MeCab like:
+
+```
+% sudo apt install mecab mecab-ipadic-utf8
+```
+
+This is example on Ubuntu.
+
 ## Basic usage
 
 Training:
