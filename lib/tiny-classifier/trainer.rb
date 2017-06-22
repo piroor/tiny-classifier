@@ -29,7 +29,7 @@ class Trainer < TinyClassifierBase
 
   def initialize
     super
-    option_parser.banner += "LABEL"
+    option_parser.banner += " LABEL"
   end
 
   def run(params)
