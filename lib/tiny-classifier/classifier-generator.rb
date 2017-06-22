@@ -18,7 +18,8 @@ require "tiny-classifier/classifier"
 require "fileutils"
 require "base64"
 
-class TinyClassifier::ClassifierGenerator < TinyClassifier::Base
+module TinyClassifier
+class ClassifierGenerator < Base
   class << self
     def run(argv=nil)
       argv ||= ARGV.dup
@@ -44,7 +45,7 @@ class TinyClassifier::ClassifierGenerator < TinyClassifier::Base
       file.puts("require \"classifier-reborn\"")
       file.puts("require \"tiny-classifier/classifier\"")
       file.puts("classifier_code = Base64.strict_decode64(\"#{encoded_classifier}\")")
-      file.puts("classifier = Classifier.new")
+      file.puts("classifier = TinyClassifier::Classifier.new")
       file.puts("classifier.classifier = Marshal.load(classifier_code)")
       file.puts("classifier.tokenizer.type = \"#{@tokenizer.type}\"")
       file.puts("classifier.run")
@@ -83,4 +84,5 @@ class TinyClassifier::ClassifierGenerator < TinyClassifier::Base
     path = Pathname(@output_dir)
     path + classifier_name
   end
+end
 end

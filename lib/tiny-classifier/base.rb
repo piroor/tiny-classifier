@@ -18,11 +18,12 @@ require "optparse"
 require "classifier-reborn"
 require "tiny-classifier/tokenizer"
 
-class TinyClassifier::Base
+module TinyClassifier
+class Base
   attr_reader :tokenizer
 
   def initialize
-    @tokenizer = TinyClassifier::Tokenizer.new
+    @tokenizer = Tokenizer.new
     @data_dir = Dir.pwd
   end
 
@@ -113,4 +114,5 @@ class TinyClassifier::Base
     @tokenizer.tokenize(@input)
     @input.strip!
   end
+end
 end

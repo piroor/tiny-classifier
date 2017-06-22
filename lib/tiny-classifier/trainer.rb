@@ -15,7 +15,8 @@
 
 require "tiny-classifier/base"
 
-class TinyClassifier::Trainer < TinyClassifier::Base
+module TinyClassifier
+class Trainer < Base
   class << self
     def run(argv=nil)
       argv ||= ARGV.dup
@@ -69,4 +70,5 @@ class TinyClassifier::Trainer < TinyClassifier::Base
       file.write(data)
     end
   end
+end
 end
