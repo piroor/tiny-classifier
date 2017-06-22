@@ -118,7 +118,8 @@ module TinyClassifier
         exit(false)
       end
       @input = $stdin.readlines.join(" ")
-      @tokenizer.tokenize(@input)
+      @input = @tokenizer.tokenize(@input)
+      log("tokenizer: #{@tokenizer.type}")
       @input.strip!
       log("input: #{@input}")
       @input
