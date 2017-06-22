@@ -39,13 +39,14 @@ class ClassifierGenerator < TinyClassifierBase
 
   def run
     File.open(output_file_path, "w") do |file|
-      file.puts("#/usr/bin/env ruby")
+      file.puts("#!/usr/bin/env ruby")
       file.puts("require \"base64\"")
       file.puts("require \"classifier-reborn\"")
       file.puts("classifier_code = Base64.strict_decode64(\"#{encoded_classifier}\")")
       file.puts("classifier = Marshal.load(classifier_code)")
       file.puts("puts(classifier.classify($stdin.readlines.join(\" \")).downcase)")
     end
+    FileUtils.chmod("a+x", output_file_path)
   end
 
   private
