@@ -67,7 +67,7 @@ positive
 
 ### Common
 
-`-l`, `--categories=CATEGORIES` (required)
+`-c`, `--categories=CATEGORIES` (required)
 :  A comman-separated list of categories. You should use only alphabetic characters. (Non-alphabetical characters will cause problems.)
 
 `-d`, `--data-dir=PATH` (optional)
