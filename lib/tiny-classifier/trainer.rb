@@ -21,9 +21,7 @@ class Trainer < TinyClassifierBase
       argv ||= ARGV.dup
       trainer = new
       *labels = trainer.parse_command_line_options(argv)
-      input = $stdin.readlines.join("\n")
-      trainer.run(label: labels.first,
-                  input: input)
+      trainer.run(label: labels.first)
     end
   end
 
@@ -34,14 +32,12 @@ class Trainer < TinyClassifierBase
 
   def run(params)
     @label = params[:label]
-    @input = params[:input]
     prepare_label
-    prepare_input
-    if @input.empty?
+    if input.empty?
       STDERR.puts("Error: No effective input.")
       false
     else
-      classifier.send("train_#{@label}", @input)
+      classifier.send("train_#{@label}", input)
       save
       true
     end

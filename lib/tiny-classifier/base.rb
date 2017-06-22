@@ -99,7 +99,16 @@ class TinyClassifierBase
     end
   end
 
+  def input
+    @input ||= prepare_input
+  end
+
   def prepare_input
+    unless File.pipe?(STDIN)
+      STDERR.puts("Error: No effective input. You need to give any input via the STDIN.")
+      exit(false)
+    end
+    @input = $stdin.readlines.join("\n")
     tokenize
     @input.strip!
   end

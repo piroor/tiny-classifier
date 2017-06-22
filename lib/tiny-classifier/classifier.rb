@@ -21,20 +21,17 @@ class Classifier < TinyClassifierBase
       argv ||= ARGV.dup
       classifier = new
       classifier.parse_command_line_options(argv)
-      input = $stdin.readlines.join("\n")
-      classifier.run(input: input)
+      classifier.run
     end
   end
 
   def run(params)
     @label = params[:label]
-    @input = params[:input]
-    prepare_input
-    if @input.empty?
+    if input.empty?
       STDERR.puts("Error: No effective input.")
       false
     else
-      label = classifier.classify(@input)
+      label = classifier.classify(input)
       puts label.downcase
       true
     end
