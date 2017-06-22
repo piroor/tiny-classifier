@@ -27,7 +27,7 @@ module TinyClassifier
     end
 
     def tokenize(input)
-      case @tokenizer.to_s.downcase.to_sym
+      case @type.to_s.downcase.to_sym
       when :mecab
         tokenize_by_mecab(input)
       else
