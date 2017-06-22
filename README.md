@@ -35,6 +35,12 @@ Training:
 
 The training data will be saved as `tc.negative-positive.dat` (`tc.` is the fixed prefix, `.dat` is the fixed suffix. The middle part is filled by given labels automatically.) in the current directory. If you hope the file to be saved in any different place, please specify `--base-dir=/path/to/data/directory`.
 
+Untraining for mistakes:
+
+```
+% echo "I'm so bad..." | tc-untrain --labels=positive,negative positive
+```
+
 Testing to classify:
 
 ~~~
@@ -70,9 +76,9 @@ positive
 `-t`, `--tokenizer=TOKENIZER` (optional)
 : Tokenizer for input which is not separated by whitespaces. Possible values are: only `mecab`.
 
-### `tc-train` specific parameters
+### `tc-train` and `tc-untrain` specific parameters
 
-The `tc-train` requires one command line argument: the label. You need to specify one of labels given via the `--labels` parameter.
+Both `tc-train` and `tc-untrain` require one command line argument: the label. You need to specify one of labels given via the `--labels` parameter.
 
 ### `tc-generate-classifier` specific parameters
 
