@@ -48,7 +48,7 @@ positive
 :  A comman-separated list of labels. You should use only alphabetic characters. (Non-alphabetical characters will cause problems.)
 
 `-d`, `--data-dir=PATH` (optional)
-: The path to the directory that the training data to be saved. The current directory.
+: The path to the directory that the training data to be saved. The current directory is the default value.
 
 `-t`, `--tokenizer=TOKENIZER` (optional)
 : Tokenizer for input which is not separated by whitespaces. Possible values are: only `mecab`.
