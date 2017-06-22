@@ -56,7 +56,7 @@ class Trainer < TinyClassifierBase
       exit(false)
     end
 
-    unless @labels.include?(@label)
+    unless @labels.include?(@label.capitalize)
       STDERR.puts("Error: You need to specify one of valid labels: #{@labels.join(', ')}")
       exit(false)
     end
