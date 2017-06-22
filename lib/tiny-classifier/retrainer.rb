@@ -21,7 +21,7 @@ module TinyClassifier
       def run(argv=nil)
         argv ||= ARGV.dup
         retrainer = new
-        *categories = trainer.parse_command_line_options(argv)
+        *categories = retrainer.parse_command_line_options(argv)
         retrainer.run(wrong: categories[0],
                       correct: categories[1])
       end
