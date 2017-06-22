@@ -42,9 +42,13 @@ class ClassifierGenerator < TinyClassifierBase
       file.puts("#!/usr/bin/env ruby")
       file.puts("require \"base64\"")
       file.puts("require \"classifier-reborn\"")
+      file.puts("require \"tiny-classifier/tokenizer\"")
       file.puts("classifier_code = Base64.strict_decode64(\"#{encoded_classifier}\")")
       file.puts("classifier = Marshal.load(classifier_code)")
-      file.puts("puts(classifier.classify($stdin.readlines.join(\" \")).downcase)")
+      file.puts("tokenizer = Tokenizer.new(type:\"#{@tokenizer.type}\")")
+      file.puts("input = $stdin.readlines.join(\" \")")
+      file.puts("input = tokenizer.tokenize(input)")
+      file.puts("puts(classifier.classify(input).downcase)")
     end
     FileUtils.chmod("a+x", output_file_path)
   end

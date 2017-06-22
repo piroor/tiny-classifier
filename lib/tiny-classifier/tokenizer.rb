@@ -18,12 +18,15 @@ class Tokenizer
 
   attr_accessor :type
 
-  def initialize
-    @type = :none
+  def initialize(params = nil)
+    if params
+      @type = params[:type]
+    end
+    @type ||= :none
   end
 
   def tokenize(input)
-    case @tokenizer
+    case @tokenizer.to_s.downcase.to_sym
     when :mecab
       tokenize_by_mecab(input)
     else

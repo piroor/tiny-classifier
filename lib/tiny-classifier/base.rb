@@ -52,7 +52,7 @@ class TinyClassifierBase
 
     parser.on("-t TOKENIZER", "--tokenizer=TOKENIZER",
               "Tokenizer (default=#{@tokenizer})") do |tokenizer|
-      @tokenizer.type = tokenizer.downcase.to_sym
+      @tokenizer.type = tokenizer
     end
 
     parser
