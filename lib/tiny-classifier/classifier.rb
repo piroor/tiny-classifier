@@ -25,6 +25,8 @@ class Classifier < TinyClassifierBase
     end
   end
 
+  attr_writer :classifier
+
   def run
     if input.empty?
       STDERR.puts("Error: No effective input.")

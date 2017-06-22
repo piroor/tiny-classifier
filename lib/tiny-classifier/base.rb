@@ -19,6 +19,8 @@ require "classifier-reborn"
 require "tiny-classifier/tokenizer"
 
 class TinyClassifierBase
+  attr_reader :tokenizer
+
   def initialize
     @tokenizer = Tokenizer.new
     @data_dir = Dir.pwd
