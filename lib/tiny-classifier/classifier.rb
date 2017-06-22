@@ -25,7 +25,7 @@ class Classifier < TinyClassifierBase
     end
   end
 
-  def run(params)
+  def run
     @label = params[:label]
     if input.empty?
       STDERR.puts("Error: No effective input.")
