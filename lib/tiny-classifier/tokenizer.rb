@@ -14,38 +14,38 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 module TinyClassifier
-class Tokenizer
-  TOKENIZERS = [:none, :mecab]
+  class Tokenizer
+    TOKENIZERS = [:none, :mecab]
 
-  attr_accessor :type
+    attr_accessor :type
 
-  def initialize(params = nil)
-    if params
-      @type = params[:type]
+    def initialize(params = nil)
+      if params
+        @type = params[:type]
+      end
+      @type ||= :none
     end
-    @type ||= :none
-  end
 
-  def tokenize(input)
-    case @tokenizer.to_s.downcase.to_sym
-    when :mecab
-      tokenize_by_mecab(input)
-    else
-      input
-    end
-  end
-
-  private
-  def tokenize_by_mecab(input)
-    require "natto"
-    natto = Natto::MeCab.new
-    terms = []
-    natto.parse(input) do |term|
-      if term.feature =~ /\A(名詞|形容詞|動詞)/
-        terms << term.surface
+    def tokenize(input)
+      case @tokenizer.to_s.downcase.to_sym
+      when :mecab
+        tokenize_by_mecab(input)
+      else
+        input
       end
     end
-    terms.join(" ").strip
+
+    private
+    def tokenize_by_mecab(input)
+      require "natto"
+      natto = Natto::MeCab.new
+      terms = []
+      natto.parse(input) do |term|
+        if term.feature =~ /\A(名詞|形容詞|動詞)/
+          terms << term.surface
+        end
+      end
+      terms.join(" ").strip
+    end
   end
-end
 end

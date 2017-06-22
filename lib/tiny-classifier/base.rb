@@ -19,100 +19,100 @@ require "classifier-reborn"
 require "tiny-classifier/tokenizer"
 
 module TinyClassifier
-class Base
-  attr_reader :tokenizer
+  class Base
+    attr_reader :tokenizer
 
-  def initialize
-    @tokenizer = Tokenizer.new
-    @data_dir = Dir.pwd
-  end
-
-  def parse_command_line_options(command_line_options)
-    option_parser.parse!(command_line_options)
-  end
-
-  def classifier
-    @classifier ||= prepare_classifier
-  end
-
-  private
-  def option_parser
-    @option_parser ||= create_option_parser
-  end
-
-  def create_option_parser
-    parser = OptionParser.new
-
-    parser.on("-d PATH", "--data-dir=PATH",
-              "Path to the directory to store training data file (default=current directory)") do |data_dir|
-      @data_dir = data_dir
+    def initialize
+      @tokenizer = Tokenizer.new
+      @data_dir = Dir.pwd
     end
 
-    parser.on("-l LABELS", "--labels=LABELS",
-              "List of labels (comma-separated)") do |labels|
-      @labels = normalize_labels(labels)
+    def parse_command_line_options(command_line_options)
+      option_parser.parse!(command_line_options)
     end
 
-    parser.on("-t TOKENIZER", "--tokenizer=TOKENIZER",
-              "Tokenizer (default=#{@tokenizer})") do |tokenizer|
-      @tokenizer.type = tokenizer
+    def classifier
+      @classifier ||= prepare_classifier
     end
 
-    parser
-  end
+    private
+    def option_parser
+      @option_parser ||= create_option_parser
+    end
 
-  def normalize_labels(labels)
-    labels
-      .strip
-      .downcase
-      .split(",")
-      .collect(&:strip)
-      .reject do |label|
-        label.empty?
+    def create_option_parser
+      parser = OptionParser.new
+
+      parser.on("-d PATH", "--data-dir=PATH",
+                "Path to the directory to store training data file (default=current directory)") do |data_dir|
+        @data_dir = data_dir
       end
-      .sort
-      .collect(&:capitalize)
-  end
 
-  def data_file_name
-    @data_file_basename ||= prepare_data_file_name
-  end
+      parser.on("-l LABELS", "--labels=LABELS",
+                "List of labels (comma-separated)") do |labels|
+        @labels = normalize_labels(labels)
+      end
 
-  def prepare_data_file_name
-    labels = @labels.join("-").downcase
-    "tc.#{labels}.dat"
-  end
+      parser.on("-t TOKENIZER", "--tokenizer=TOKENIZER",
+                "Tokenizer (default=#{@tokenizer})") do |tokenizer|
+        @tokenizer.type = tokenizer
+      end
 
-  def data_file_path
-    @data_file_path ||= prepare_data_file_path
-  end
+      parser
+    end
 
-  def prepare_data_file_path
-    path = Pathname(@data_dir)
-    path + data_file_name
-  end
+    def normalize_labels(labels)
+      labels
+        .strip
+        .downcase
+        .split(",")
+        .collect(&:strip)
+        .reject do |label|
+          label.empty?
+        end
+        .sort
+        .collect(&:capitalize)
+    end
 
-  def prepare_classifier
-    if data_file_path.exist?
-      data = File.read(data_file_path.to_s)
-      Marshal.load(data)
-    else
-      ClassifierReborn::Bayes.new(*@labels)
+    def data_file_name
+      @data_file_basename ||= prepare_data_file_name
+    end
+
+    def prepare_data_file_name
+      labels = @labels.join("-").downcase
+      "tc.#{labels}.dat"
+    end
+
+    def data_file_path
+      @data_file_path ||= prepare_data_file_path
+    end
+
+    def prepare_data_file_path
+      path = Pathname(@data_dir)
+      path + data_file_name
+    end
+
+    def prepare_classifier
+      if data_file_path.exist?
+        data = File.read(data_file_path.to_s)
+        Marshal.load(data)
+      else
+        ClassifierReborn::Bayes.new(*@labels)
+      end
+    end
+
+    def input
+      @input ||= prepare_input
+    end
+
+    def prepare_input
+      unless File.pipe?(STDIN)
+        STDERR.puts("Error: No effective input. You need to give any input via the STDIN.")
+        exit(false)
+      end
+      @input = $stdin.readlines.join(" ")
+      @tokenizer.tokenize(@input)
+      @input.strip!
     end
   end
-
-  def input
-    @input ||= prepare_input
-  end
-
-  def prepare_input
-    unless File.pipe?(STDIN)
-      STDERR.puts("Error: No effective input. You need to give any input via the STDIN.")
-      exit(false)
-    end
-    @input = $stdin.readlines.join(" ")
-    @tokenizer.tokenize(@input)
-    @input.strip!
-  end
-end
 end

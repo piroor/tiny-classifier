@@ -16,59 +16,59 @@
 require "tiny-classifier/base"
 
 module TinyClassifier
-class Trainer < Base
-  class << self
-    def run(argv=nil)
-      argv ||= ARGV.dup
-      trainer = new
-      *labels = trainer.parse_command_line_options(argv)
-      trainer.run(label: labels.first)
+  class Trainer < Base
+    class << self
+      def run(argv=nil)
+        argv ||= ARGV.dup
+        trainer = new
+        *labels = trainer.parse_command_line_options(argv)
+        trainer.run(label: labels.first)
+      end
+    end
+
+    def initialize
+      super
+      option_parser.banner += " LABEL"
+    end
+
+    def run(params)
+      @label = params[:label]
+      prepare_label
+      if input.empty?
+        STDERR.puts("Error: No effective input.")
+        false
+      else
+        classifier.send("train_#{@label}", input)
+        save
+        true
+      end
+    end
+
+    private
+    def prepare_label
+      unless @label
+        STDERR.puts("Error: You need to specify the label for the input.")
+        exit(false)
+      end
+
+      @label = @label.downcase.strip
+
+      if @label.empty?
+        STDERR.puts("Error: You need to specify the label for the input.")
+        exit(false)
+      end
+
+      unless @labels.include?(@label.capitalize)
+        STDERR.puts("Error: You need to specify one of valid labels: #{@labels.join(', ')}")
+        exit(false)
+      end
+    end
+
+    def save
+      data = Marshal.dump(classifier)
+      File.open(data_file_path, "w") do |file|
+        file.write(data)
+      end
     end
   end
-
-  def initialize
-    super
-    option_parser.banner += " LABEL"
-  end
-
-  def run(params)
-    @label = params[:label]
-    prepare_label
-    if input.empty?
-      STDERR.puts("Error: No effective input.")
-      false
-    else
-      classifier.send("train_#{@label}", input)
-      save
-      true
-    end
-  end
-
-  private
-  def prepare_label
-    unless @label
-      STDERR.puts("Error: You need to specify the label for the input.")
-      exit(false)
-    end
-
-    @label = @label.downcase.strip
-
-    if @label.empty?
-      STDERR.puts("Error: You need to specify the label for the input.")
-      exit(false)
-    end
-
-    unless @labels.include?(@label.capitalize)
-      STDERR.puts("Error: You need to specify one of valid labels: #{@labels.join(', ')}")
-      exit(false)
-    end
-  end
-
-  def save
-    data = Marshal.dump(classifier)
-    File.open(data_file_path, "w") do |file|
-      file.write(data)
-    end
-  end
-end
 end
