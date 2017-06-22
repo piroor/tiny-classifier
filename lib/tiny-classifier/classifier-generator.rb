@@ -72,8 +72,8 @@ module TinyClassifier
     end
 
     def prepare_classifier_name
-      labels = @labels.join("-").downcase
-      "tc-classify-#{labels}"
+      categories = @categories.join("-").downcase
+      "tc-classify-#{categories}"
     end
 
     def output_file_path

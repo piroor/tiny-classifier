@@ -48,9 +48,9 @@ module TinyClassifier
         @data_dir = data_dir
       end
 
-      parser.on("-l LABELS", "--labels=LABELS",
-                "List of labels (comma-separated)") do |labels|
-        @labels = normalize_labels(labels)
+      parser.on("-c CATEGORIES", "--categories=CATEGORIES",
+                "List of categories (comma-separated)") do |categories|
+        @categories = normalize_categories(categories)
       end
 
       parser.on("-t TOKENIZER", "--tokenizer=TOKENIZER",
@@ -61,14 +61,14 @@ module TinyClassifier
       parser
     end
 
-    def normalize_labels(labels)
-      labels
+    def normalize_categories(categories)
+      categories
         .strip
         .downcase
         .split(",")
         .collect(&:strip)
-        .reject do |label|
-          label.empty?
+        .reject do |category|
+          category.empty?
         end
         .sort
         .collect(&:capitalize)
@@ -79,8 +79,8 @@ module TinyClassifier
     end
 
     def prepare_data_file_name
-      labels = @labels.join("-").downcase
-      "tc.#{labels}.dat"
+      categories = @categories.join("-").downcase
+      "tc.#{categories}.dat"
     end
 
     def data_file_path
@@ -97,7 +97,7 @@ module TinyClassifier
         data = File.read(data_file_path.to_s)
         Marshal.load(data)
       else
-        ClassifierReborn::Bayes.new(*@labels)
+        ClassifierReborn::Bayes.new(*@categories)
       end
     end
 

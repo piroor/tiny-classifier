@@ -33,8 +33,8 @@ module TinyClassifier
         STDERR.puts("Error: No effective input.")
         false
       else
-        label = classifier.classify(input)
-        puts label.downcase
+        category = classifier.classify(input)
+        puts category.downcase
         true
       end
     end

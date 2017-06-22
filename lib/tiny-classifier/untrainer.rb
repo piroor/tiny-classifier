@@ -18,13 +18,13 @@ require "tiny-classifier/trainer"
 module TinyClassifier
   class Untrainer < Trainer
     def run(params)
-      @label = params[:label]
-      prepare_label
+      @category = params[:category]
+      prepare_category
       if input.empty?
         STDERR.puts("Error: No effective input.")
         false
       else
-        classifier.send("untrain_#{@label}", input)
+        classifier.send("untrain_#{@category}", input)
         save
         true
       end
