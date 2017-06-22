@@ -33,6 +33,8 @@ Training:
 % echo "Oh my god!"           | tc-train --labels=positive,negative negative
 ```
 
+The training data will be saved as `tc.positive-negative.dat` (`tc.` is the fixed prefix, `.dat` is the fixed suffix. The middle part is filled by given labels automatically.) in the current directory. If you hope the file to be saved in any different place, please specify `--base-dir=/path/to/data/directory`.
+
 Classifying:
 
 ~~~
