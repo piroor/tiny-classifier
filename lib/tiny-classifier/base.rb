@@ -122,11 +122,4 @@ class TinyClassifierBase
     end
     @input = terms.join(" ").strip
   end
-
-  def save
-    data = Marshal.dump(classifier)
-    File.open(data_file_path, "w") do |file|
-      file.write(data)
-    end
-  end
 end
