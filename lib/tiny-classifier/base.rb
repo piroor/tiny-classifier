@@ -113,7 +113,7 @@ class TinyClassifierBase
     natto = Natto::MeCab.new
     terms = []
     natto.parse(@input) do |term|
-      if term.feature =~ /名詞|形容詞|動詞/
+      if term.feature =~ /\A(名詞|形容詞|動詞)/
         terms << term.surface
       end
     end
