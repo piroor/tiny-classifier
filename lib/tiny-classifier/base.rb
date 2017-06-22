@@ -29,6 +29,10 @@ class TinyClassifierBase
     option_parser.parse!(command_line_options)
   end
 
+  def classifier
+    @classifier ||= prepare_classifier
+  end
+
   private
   def option_parser
     @option_parser ||= create_option_parser
@@ -86,10 +90,6 @@ class TinyClassifierBase
     path + data_file_name
   end
 
-  def classifier
-    @classifier ||= prepare_classifier
-  end
-
   def prepare_classifier
     if data_file_path.exist?
       data = File.read(data_file_path.to_s)
@@ -108,7 +108,7 @@ class TinyClassifierBase
       STDERR.puts("Error: No effective input. You need to give any input via the STDIN.")
       exit(false)
     end
-    @input = $stdin.readlines.join("\n")
+    @input = $stdin.readlines.join(" ")
     tokenize
     @input.strip!
   end
