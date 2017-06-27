@@ -34,10 +34,10 @@ module TinyClassifier::Command
       else
         @category = params[:wrong]
         prepare_category
-        classifier.send("untrain_#{@category}", input)
+        classifier.untrain(@category, input)
         @category = params[:correct]
         prepare_category
-        classifier.send("train_#{@category}", input)
+        classifier.train(@category, input)
         save
         true
       end
