@@ -55,7 +55,6 @@ module TinyClassifier
       parser.on("-c CATEGORIES", "--categories=CATEGORIES",
                 "List of categories (comma-separated)") do |categories|
         @categories = CategoryManager.new(categories)
-        log("categories: #{@categories.inspect}")
       end
 
       parser.on("-t TOKENIZER", "--tokenizer=TOKENIZER",
@@ -81,7 +80,9 @@ module TinyClassifier
 
     def prepare_data_file_path
       path = Pathname(@data_dir)
-      path + data_file_name
+      path += data_file_name
+      log("file: #{path}")
+      path
     end
 
     def prepare_classifier

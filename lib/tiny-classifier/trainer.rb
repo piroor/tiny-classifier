@@ -62,6 +62,8 @@ module TinyClassifier
         error("Error: You need to specify one of valid categories: #{@categories.all.join(", ")}")
         exit(false)
       end
+
+      log("training as: #{@category}")
     end
 
     def save
