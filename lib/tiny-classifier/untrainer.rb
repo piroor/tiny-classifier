@@ -24,7 +24,7 @@ module TinyClassifier
         error("Error: No effective input.")
         false
       else
-        classifier.send("untrain_#{@category}", input)
+        classifier.untrain(@category, input)
         save
         true
       end
