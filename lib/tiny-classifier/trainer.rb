@@ -51,15 +51,15 @@ module TinyClassifier
         exit(false)
       end
 
-      @category = @category.downcase.strip
+      @category = @categories.normalize(@category)
 
       if @category.empty?
         error("Error: You need to specify the category for the input.")
         exit(false)
       end
 
-      unless @categories.include?(@category.capitalize)
-        error("Error: You need to specify one of valid categories: #{@categories.join(', ')}")
+      unless @categories.valid?(@category)
+        error("Error: You need to specify one of valid categories: #{@categories.all.join(", ")}")
         exit(false)
       end
     end

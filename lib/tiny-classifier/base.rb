@@ -17,12 +17,14 @@ require "pathname"
 require "optparse"
 require "classifier-reborn"
 require "tiny-classifier/tokenizer"
+require "tiny-classifier/category-manager"
 
 module TinyClassifier
   class Base
     attr_reader :tokenizer
 
     def initialize
+      @categories = nil
       @tokenizer = Tokenizer.new
       @data_dir = Dir.pwd
       @verbose = false
@@ -51,8 +53,8 @@ module TinyClassifier
 
       parser.on("-c CATEGORIES", "--categories=CATEGORIES",
                 "List of categories (comma-separated)") do |categories|
-        @categories = normalize_categories(categories)
-        log("categories: #{@categories}")
+        @categories = CategoryManager.new(categories)
+        log("categories: #{@categories.inspect}")
       end
 
       parser.on("-t TOKENIZER", "--tokenizer=TOKENIZER",
@@ -68,26 +70,12 @@ module TinyClassifier
       parser
     end
 
-    def normalize_categories(categories)
-      categories
-        .strip
-        .downcase
-        .split(",")
-        .collect(&:strip)
-        .reject do |category|
-          category.empty?
-        end
-        .sort
-        .collect(&:capitalize)
-    end
-
     def data_file_name
       @data_file_basename ||= prepare_data_file_name
     end
 
     def prepare_data_file_name
-      categories = @categories.join("-").downcase
-      "tc.#{categories}.dat"
+      "tc.#{@categories.basename}.dat"
     end
 
     def data_file_path
@@ -104,7 +92,7 @@ module TinyClassifier
         data = File.read(data_file_path.to_s)
         Marshal.load(data)
       else
-        ClassifierReborn::Bayes.new(*@categories)
+        ClassifierReborn::Bayes.new(*@categories.all)
       end
     end
 
