@@ -71,10 +71,6 @@ module TinyClassifier
     end
 
     def data_file_name
-      @data_file_basename ||= prepare_data_file_name
-    end
-
-    def prepare_data_file_name
       "tc.#{@categories.basename}.dat"
     end
 
