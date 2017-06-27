@@ -32,4 +32,17 @@ class CategoryMnagerTest < Test::Unit::TestCase
     categories = TinyClassifier::CategoryManager.new(data[:input])
     assert_equal(data[:expected], categories.all)
   end
+
+  data(
+    downcase: { expected: "Positive",
+                input:    "positive" },
+    upcase:   { expected: "Positive",
+                input:    "POSITIVE" },
+    mixed:    { expected: "Positive",
+                input:    "pOsItIvE" },
+  )
+  def test_normalize(data)
+    categories = TinyClassifier::CategoryManager.new("")
+    assert_equal(data[:expected], categories.normalize(data[:input]))
+  end
 end

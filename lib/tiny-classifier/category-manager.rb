@@ -36,7 +36,6 @@ module TinyClassifier
       @categories.join("-").downcase
     end
 
-    private
     def normalize(category)
       category
         .downcase
@@ -44,6 +43,7 @@ module TinyClassifier
         .capitalize
     end
 
+    private
     def normalize_all
       @categories.collect! do |category|
         normalize(category)
