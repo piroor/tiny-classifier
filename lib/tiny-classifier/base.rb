@@ -18,6 +18,7 @@ require "optparse"
 require "classifier-reborn"
 require "tiny-classifier/tokenizer"
 require "tiny-classifier/category-manager"
+require "tiny-classifier/input"
 
 module TinyClassifier
   class Base
@@ -97,16 +98,16 @@ module TinyClassifier
     end
 
     def prepare_input
-      unless File.pipe?(STDIN)
+      input = Input.new
+      unless input.given?
         error("Error: No effective input. You need to give any input via the STDIN.")
         exit(false)
       end
-      @input = $stdin.readlines.join(" ")
-      @input = @tokenizer.tokenize(@input)
+      input.read
+      tokenized = @tokenizer.tokenize(input.read)
       log("tokenizer: #{@tokenizer.type}")
-      @input.strip!
-      log("input: #{@input}")
-      @input
+      log("tokenized: #{tokenized}")
+      tokenized
     end
 
     def error(message)
