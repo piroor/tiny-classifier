@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 # Copyright (C) 2017 YUKI "Piro" Hiroshi
 #
 # This program is free software: you can redistribute it and/or modify
@@ -13,21 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-task :default => :build
+require "test-unit"
 
-require "bundler/gem_helper"
+base_dir = File.expand_path(File.join(File.dirname(__FILE__), ".."))
+lib_dir = File.join(base_dir, "lib")
+test_dir = File.join(base_dir, "test")
 
-base_dir = File.join(File.dirname(__FILE__))
+$LOAD_PATH.unshift(lib_dir)
+$LOAD_PATH.unshift(test_dir)
 
-helper = Bundler::GemHelper.new(base_dir)
-def helper.version_tag
-  version
-end
-
-helper.install
-spec = helper.gemspec
-
-desc "Run tests"
-task :test do
-  ruby("test/run-test.rb")
-end
+exit Test::Unit::AutoRunner.run(true, test_dir)
