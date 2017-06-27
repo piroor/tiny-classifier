@@ -17,16 +17,16 @@ require "tiny-classifier/category-manager"
 
 class CategoryMnagerTest < Test::Unit::TestCase
   data(
-    single: { expected: ["Positive"],
-              input:    "positive" },
-    multiple: { expected: ["Positive", "Negative"].sort,
-                input:    "positive,negative" },
+    single:      { expected: ["Positive"],
+                   input:    "positive" },
+    multiple:    { expected: ["Positive", "Negative"].sort,
+                   input:    "positive,negative" },
     whitespaces: { expected: ["Positive", "Negative"].sort,
                    input:    "  positive  ,  negative  " },
-    blank: { expected: ["Positive", "Negative"].sort,
-             input:    ",positive,,negative,," },
-    duplicated: { expected: ["Positive", "Negative"].sort,
-                  input:    "negative,positive,positive,negative,negative,positive" },
+    blank:       { expected: ["Positive", "Negative"].sort,
+                   input:    ",positive,,negative,," },
+    duplicated:  { expected: ["Positive", "Negative"].sort,
+                   input:    "negative,positive,positive,negative,negative,positive" },
   )
   def test_creation(data)
     categories = TinyClassifier::CategoryManager.new(data[:input])
