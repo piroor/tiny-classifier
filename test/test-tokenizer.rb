@@ -46,5 +46,11 @@ class TokenizerTest < Test::Unit::TestCase
       input = "ThisTextIsNotSeparated"
       assert_equal(input, @tokenizer.tokenize(input))
     end
+
+    def test_japanese
+      input = "日本語の文章からは名詞と動詞と形容詞だけが抽出されます"
+      expected = "日本語 文章 名詞 動詞 形容詞 抽出 さ れ"
+      assert_equal(expected, @tokenizer.tokenize(input))
+    end
   end
 end
