@@ -15,6 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-require "tiny-classifier/command/trainer"
+require "tiny-classifier/command/train"
 
-TinyClassifier::Command::Trainer.run
+TinyClassifier::Command::Train.run

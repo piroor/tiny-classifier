@@ -16,7 +16,7 @@
 require "tiny-classifier/command/base"
 
 module TinyClassifier::Command
-  class Trainer < Base
+  class Train < Base
     class << self
       def run(argv=nil)
         argv ||= ARGV.dup

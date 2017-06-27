@@ -13,10 +13,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-require "tiny-classifier/command/trainer"
+require "tiny-classifier/command/train"
 
 module TinyClassifier::Command
-  class Retrainer < Trainer
+  class Retrain < Train
     class << self
       def run(argv=nil)
         argv ||= ARGV.dup

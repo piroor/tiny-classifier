@@ -14,12 +14,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 require "tiny-classifier/command/base"
-require "tiny-classifier/command/classifier"
+require "tiny-classifier/command/classify"
 require "fileutils"
 require "base64"
 
 module TinyClassifier::Command
-  class ClassifierGenerator < Base
+  class GenerateClassifier < Base
     class << self
       def run(argv=nil)
         argv ||= ARGV.dup
@@ -43,12 +43,12 @@ module TinyClassifier::Command
         file.puts("#!/usr/bin/env ruby")
         file.puts("require \"base64\"")
         file.puts("require \"classifier-reborn\"")
-        file.puts("require \"tiny-classifier/classifier\"")
+        file.puts("require \"tiny-classifier/command/classify\"")
         file.puts("classifier_code = Base64.strict_decode64(\"#{encoded_classifier}\")")
-        file.puts("classifier = TinyClassifier::Classifier.new")
-        file.puts("classifier.classifier = Marshal.load(classifier_code)")
-        file.puts("classifier.tokenizer.type = \"#{@tokenizer.type}\"")
-        file.puts("classifier.run")
+        file.puts("classify = TinyClassifier::Command::Classify.new")
+        file.puts("classify.classifier = Marshal.load(classifier_code)")
+        file.puts("classify.tokenizer.type = \"#{@tokenizer.type}\"")
+        file.puts("classify.run")
       end
       FileUtils.chmod("a+x", output_file_path)
     end

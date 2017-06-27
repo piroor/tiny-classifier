@@ -13,19 +13,28 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-require "tiny-classifier/command/trainer"
+require "tiny-classifier/command/base"
 
 module TinyClassifier::Command
-  class Untrainer < Trainer
-    def run(params)
-      @category = params[:category]
-      prepare_category
+  class Classify < Base
+    class << self
+      def run(argv=nil)
+        argv ||= ARGV.dup
+        classifier = new
+        classifier.parse_command_line_options(argv)
+        classifier.run
+      end
+    end
+
+    attr_writer :classifier
+
+    def run
       if input.empty?
         error("Error: No effective input.")
         false
       else
-        classifier.untrain(@category, input)
-        save
+        category = classifier.classify(input)
+        puts category.downcase
         true
       end
     end
