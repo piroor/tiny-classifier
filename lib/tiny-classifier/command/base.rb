@@ -20,13 +20,13 @@ require "tiny-classifier/tokenizer"
 require "tiny-classifier/category-manager"
 require "tiny-classifier/input"
 
-module TinyClassifier
+module TinyClassifier::Command
   class Base
     attr_reader :tokenizer
 
     def initialize
       @categories = nil
-      @tokenizer = Tokenizer.new
+      @tokenizer = TinyClassifier::Tokenizer.new
       @data_dir = Dir.pwd
       @verbose = false
     end
@@ -54,7 +54,7 @@ module TinyClassifier
 
       parser.on("-c CATEGORIES", "--categories=CATEGORIES",
                 "List of categories (comma-separated)") do |categories|
-        @categories = CategoryManager.new(categories)
+        @categories = TinyClassifier::CategoryManager.new(categories)
       end
 
       parser.on("-t TOKENIZER", "--tokenizer=TOKENIZER",
@@ -99,7 +99,7 @@ module TinyClassifier
     end
 
     def prepare_input
-      input = Input.new
+      input = TinyClassifier::Input.new
       unless input.given?
         error("Error: No effective input. You need to give any input via the STDIN.")
         exit(false)

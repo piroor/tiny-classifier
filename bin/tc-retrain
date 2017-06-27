@@ -15,6 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-require "tiny-classifier/retrainer"
+require "tiny-classifier/command/retrainer"
 
-TinyClassifier::Retrainer.run
+TinyClassifier::Command::Retrainer.run

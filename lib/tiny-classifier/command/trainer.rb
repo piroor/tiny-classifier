@@ -13,9 +13,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-require "tiny-classifier/base"
+require "tiny-classifier/command/base"
 
-module TinyClassifier
+module TinyClassifier::Command
   class Trainer < Base
     class << self
       def run(argv=nil)
