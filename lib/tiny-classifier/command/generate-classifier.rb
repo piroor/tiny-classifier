@@ -68,11 +68,7 @@ module TinyClassifier::Command
     end
 
     def classifier_name
-      @classifier_name ||= prepare_classifier_name
-    end
-
-    def prepare_classifier_name
-      "tc-classify-#{@categories.basename}"
+      @classifier_name ||= "tc-classify-#{@categories.basename}"
     end
 
     def output_file_path
