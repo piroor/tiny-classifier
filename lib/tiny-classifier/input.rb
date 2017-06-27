@@ -25,7 +25,7 @@ module TinyClassifier
     end
 
     def read
-      (@data || $stdin.readlines.join(" ")).strip
+      @data ||= $stdin.readlines.join(" ").strip
     end
   end
 end
