@@ -21,12 +21,12 @@ class TokenizerTest < Test::Unit::TestCase
       @tokenizer = TinyClassifier::Tokenizer.new
     end
 
-    def test_tokenize_space_separated
+    def test_space_separated
       input = "This is space separated text"
       assert_equal(input, @tokenizer.tokenize(input))
     end
 
-    def test_tokenize_not_separated
+    def test_not_separated
       input = "ThisTextIsNotSeparated"
       assert_equal(input, @tokenizer.tokenize(input))
     end
@@ -37,12 +37,12 @@ class TokenizerTest < Test::Unit::TestCase
       @tokenizer = TinyClassifier::Tokenizer.new(:type => :mecab)
     end
 
-    def test_tokenize_space_separated
+    def test_space_separated
       input = "This is space separated text"
       assert_equal(input, @tokenizer.tokenize(input))
     end
 
-    def test_tokenize_not_separated
+    def test_not_separated
       input = "ThisTextIsNotSeparated"
       assert_equal(input, @tokenizer.tokenize(input))
     end
