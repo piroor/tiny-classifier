@@ -103,7 +103,6 @@ module TinyClassifier
         error("Error: No effective input. You need to give any input via the STDIN.")
         exit(false)
       end
-      input.read
       tokenized = @tokenizer.tokenize(input.read)
       log("tokenizer: #{@tokenizer.type}")
       log("tokenized: #{tokenized}")
