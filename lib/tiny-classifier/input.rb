@@ -20,7 +20,7 @@ module TinyClassifier
     end
 
     def given?
-      return true if @data
+      return true if @data or $stdin.is_a?(StringIO)
       File.pipe?(STDIN)
     end
 
