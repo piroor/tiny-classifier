@@ -25,78 +25,80 @@ module CommandTest
       @categories = %w(positive negative)
     end
 
+    def assert_success(result)
+      assert_true(result)
+      assert_data_file_exist
+    end
+
+    def assert_fail(result)
+      assert_false(result)
+      assert_data_file_not_exist
+    end
+
     class Success < self
       def test_long_categories
         set_input("foo bar bazz")
-        assert_true TinyClassifier::Command::Train.run([
+        assert_success TinyClassifier::Command::Train.run([
           "--categories=#{@categories.join(",")}",
           "positive",
         ])
-        assert_data_file_exist
       end
 
       def test_short_categories
         set_input("foo bar bazz")
-        assert_true TinyClassifier::Command::Train.run([
+        assert_success TinyClassifier::Command::Train.run([
           "-c", @categories.join(","),
           "positive",
         ])
-        assert_data_file_exist
       end
 
       def test_long_mecab
         set_input("日本語の文章")
-        assert_true TinyClassifier::Command::Train.run([
+        assert_success TinyClassifier::Command::Train.run([
           "--categories=#{@categories.join(",")}",
           "--tokenizer=mecab",
           "positive",
         ])
-        assert_data_file_exist
       end
 
       def test_short_mecab
         set_input("日本語の文章")
-        assert_true TinyClassifier::Command::Train.run([
+        assert_success TinyClassifier::Command::Train.run([
           "--categories=#{@categories.join(",")}",
           "-t", "mecab",
           "positive",
         ])
-        assert_data_file_exist
       end
     end
 
     class Fail < self
       def test_no_input
-        assert_false TinyClassifier::Command::Train.run([
+        assert_fail TinyClassifier::Command::Train.run([
           "--categories=#{@categories.join(",")}",
           "positive",
         ])
-        assert_data_file_not_exist
       end
 
       def test_no_categories
         set_input("foo bar bazz")
-        assert_false TinyClassifier::Command::Train.run([
+        assert_fail TinyClassifier::Command::Train.run([
           "positive",
         ])
-        assert_data_file_not_exist
       end
 
       def test_no_category
         set_input("foo bar bazz")
-        assert_false TinyClassifier::Command::Train.run([
+        assert_fail TinyClassifier::Command::Train.run([
           "--categories=#{@categories.join(",")}",
         ])
-        assert_data_file_not_exist
       end
 
       def test_unknown_category
         set_input("foo bar bazz")
-        assert_false TinyClassifier::Command::Train.run([
+        assert_fail TinyClassifier::Command::Train.run([
           "--categories=#{@categories.join(",")}",
           "unknown",
         ])
-        assert_data_file_not_exist
       end
     end
   end
