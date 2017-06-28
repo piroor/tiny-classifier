@@ -15,7 +15,8 @@
 
 require "tiny-classifier/command/train"
 
-module TinyClassifier::Command
+module TinyClassifier
+  module Command
   class Untrain < Train
     def run(params)
       @category = params[:category]
@@ -29,5 +30,6 @@ module TinyClassifier::Command
         true
       end
     end
+  end
   end
 end

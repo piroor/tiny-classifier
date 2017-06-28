@@ -15,7 +15,8 @@
 
 require "tiny-classifier/command/base"
 
-module TinyClassifier::Command
+module TinyClassifier
+  module Command
   class Train < Base
     class << self
       def run(argv=nil)
@@ -72,5 +73,6 @@ module TinyClassifier::Command
         file.write(data)
       end
     end
+  end
   end
 end

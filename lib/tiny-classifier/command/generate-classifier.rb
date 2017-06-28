@@ -18,7 +18,8 @@ require "tiny-classifier/command/classify"
 require "fileutils"
 require "base64"
 
-module TinyClassifier::Command
+module TinyClassifier
+  module Command
   class GenerateClassifier < Base
     class << self
       def run(argv=nil)
@@ -79,5 +80,6 @@ module TinyClassifier::Command
       path = Pathname(@output_dir)
       path + classifier_name
     end
+  end
   end
 end

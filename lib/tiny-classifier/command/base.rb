@@ -20,13 +20,14 @@ require "tiny-classifier/tokenizer"
 require "tiny-classifier/category-manager"
 require "tiny-classifier/input"
 
-module TinyClassifier::Command
+module TinyClassifier
+  module Command
   class Base
     attr_reader :tokenizer
 
     def initialize
       @categories = nil
-      @tokenizer = TinyClassifier::Tokenizer.new
+      @tokenizer = Tokenizer.new
       @data_dir = Dir.pwd
       @verbose = false
     end
@@ -54,7 +55,7 @@ module TinyClassifier::Command
 
       parser.on("-c CATEGORIES", "--categories=CATEGORIES",
                 "List of categories (comma-separated)") do |categories|
-        @categories = TinyClassifier::CategoryManager.new(categories)
+        @categories = CategoryManager.new(categories)
       end
 
       parser.on("-t TOKENIZER", "--tokenizer=TOKENIZER",
@@ -117,5 +118,6 @@ module TinyClassifier::Command
     def log(message)
       STDERR.puts(message) if @verbose
     end
+  end
   end
 end

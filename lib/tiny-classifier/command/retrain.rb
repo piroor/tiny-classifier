@@ -15,7 +15,8 @@
 
 require "tiny-classifier/command/train"
 
-module TinyClassifier::Command
+module TinyClassifier
+  module Command
   class Retrain < Train
     class << self
       def run(argv=nil)
@@ -42,5 +43,6 @@ module TinyClassifier::Command
         true
       end
     end
+  end
   end
 end

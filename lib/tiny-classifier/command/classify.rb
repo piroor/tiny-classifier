@@ -15,7 +15,8 @@
 
 require "tiny-classifier/command/base"
 
-module TinyClassifier::Command
+module TinyClassifier
+  module Command
   class Classify < Base
     class << self
       def run(argv=nil)
@@ -38,5 +39,6 @@ module TinyClassifier::Command
         true
       end
     end
+  end
   end
 end
