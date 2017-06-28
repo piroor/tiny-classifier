@@ -75,6 +75,7 @@ module CommandTest
       end
 
       def test_no_categories
+        set_input("foo bar bazz")
         assert_false TinyClassifier::Command::Train.run([
           "positive",
         ])
@@ -90,6 +91,7 @@ module CommandTest
       end
 
       def test_unknown_category
+        set_input("foo bar bazz")
         assert_false TinyClassifier::Command::Train.run([
           "--categories=#{@categories.join(",")}",
           "unknown",
