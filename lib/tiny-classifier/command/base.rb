@@ -19,6 +19,7 @@ require "classifier-reborn"
 require "tiny-classifier/tokenizer"
 require "tiny-classifier/category-manager"
 require "tiny-classifier/input"
+require "tiny-classifier/errors"
 
 module TinyClassifier
   module Command
@@ -102,22 +103,33 @@ module TinyClassifier
 
       def prepare_input
         input = Input.new
-        unless input.given?
-          error("Error: No effective input. You need to give any input via the STDIN.")
-          exit(false)
-        end
+        raise NoInput.new unless input.given?
         tokenized = @tokenizer.tokenize(input.read)
         log("tokenizer: #{@tokenizer.type}")
         log("tokenized: #{tokenized}")
         tokenized
       end
 
+      def handle_error(error)
+        case error
+        when NoInput
+          error("Error: No input. You need to give any input via the STDIN.")
+        when NoEffectiveInput
+          error("Error: No effective input.")
+        when NoCategory
+          error("Error: You need to specify a category for the input.")
+        when InvalidCategory
+          error("Error: You need to specify one of valid categories: #{error.categories.join(", ")}")
+        end
+        false
+      end
+
       def error(message)
-        STDERR.puts(message)
+        $stderr.puts(message)
       end
 
       def log(message)
-        STDERR.puts(message) if @verbose
+        $stderr.puts(message) if @verbose
       end
     end
   end
