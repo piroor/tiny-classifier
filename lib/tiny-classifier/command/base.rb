@@ -101,7 +101,7 @@ module TinyClassifier
       end
 
       def prepare_input
-        input = TinyClassifier::Input.new
+        input = Input.new
         unless input.given?
           error("Error: No effective input. You need to give any input via the STDIN.")
           exit(false)
