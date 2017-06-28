@@ -17,62 +17,62 @@ require "tiny-classifier/command/base"
 
 module TinyClassifier
   module Command
-  class Train < Base
-    class << self
-      def run(argv=nil)
-        argv ||= ARGV.dup
-        trainer = new
-        *categories = trainer.parse_command_line_options(argv)
-        trainer.run(category: categories.first)
+    class Train < Base
+      class << self
+        def run(argv=nil)
+          argv ||= ARGV.dup
+          trainer = new
+          *categories = trainer.parse_command_line_options(argv)
+          trainer.run(category: categories.first)
+        end
+      end
+
+      def initialize
+        super
+        option_parser.banner += " CATEGORY"
+      end
+
+      def run(params)
+        @category = params[:category]
+        prepare_category
+        if input.empty?
+          error("Error: No effective input.")
+          false
+        else
+          classifier.train(@category, input)
+          save
+          true
+        end
+      end
+
+      private
+      def prepare_category
+        unless @category
+          error("Error: You need to specify the category for the input.")
+          exit(false)
+        end
+
+        @category = @categories.normalize(@category)
+
+        if @category.empty?
+          error("Error: You need to specify the category for the input.")
+          exit(false)
+        end
+
+        unless @categories.valid?(@category)
+          error("Error: You need to specify one of valid categories: #{@categories.all.join(", ")}")
+          exit(false)
+        end
+
+        log("training as: #{@category}")
+      end
+
+      def save
+        data = Marshal.dump(classifier)
+        File.open(data_file_path, "w") do |file|
+          file.write(data)
+        end
       end
     end
-
-    def initialize
-      super
-      option_parser.banner += " CATEGORY"
-    end
-
-    def run(params)
-      @category = params[:category]
-      prepare_category
-      if input.empty?
-        error("Error: No effective input.")
-        false
-      else
-        classifier.train(@category, input)
-        save
-        true
-      end
-    end
-
-    private
-    def prepare_category
-      unless @category
-        error("Error: You need to specify the category for the input.")
-        exit(false)
-      end
-
-      @category = @categories.normalize(@category)
-
-      if @category.empty?
-        error("Error: You need to specify the category for the input.")
-        exit(false)
-      end
-
-      unless @categories.valid?(@category)
-        error("Error: You need to specify one of valid categories: #{@categories.all.join(", ")}")
-        exit(false)
-      end
-
-      log("training as: #{@category}")
-    end
-
-    def save
-      data = Marshal.dump(classifier)
-      File.open(data_file_path, "w") do |file|
-        file.write(data)
-      end
-    end
-  end
   end
 end

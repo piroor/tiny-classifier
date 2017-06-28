@@ -17,32 +17,32 @@ require "tiny-classifier/command/train"
 
 module TinyClassifier
   module Command
-  class Retrain < Train
-    class << self
-      def run(argv=nil)
-        argv ||= ARGV.dup
-        retrainer = new
-        *categories = retrainer.parse_command_line_options(argv)
-        retrainer.run(wrong: categories[0],
-                      correct: categories[1])
+    class Retrain < Train
+      class << self
+        def run(argv=nil)
+          argv ||= ARGV.dup
+          retrainer = new
+          *categories = retrainer.parse_command_line_options(argv)
+          retrainer.run(wrong: categories[0],
+                        correct: categories[1])
+        end
       end
-    end
 
-    def run(params)
-      if input.empty?
-        error("Error: No effective input.")
-        false
-      else
-        @category = params[:wrong]
-        prepare_category
-        classifier.untrain(@category, input)
-        @category = params[:correct]
-        prepare_category
-        classifier.train(@category, input)
-        save
-        true
+      def run(params)
+        if input.empty?
+          error("Error: No effective input.")
+          false
+        else
+          @category = params[:wrong]
+          prepare_category
+          classifier.untrain(@category, input)
+          @category = params[:correct]
+          prepare_category
+          classifier.train(@category, input)
+          save
+          true
+        end
       end
     end
-  end
   end
 end

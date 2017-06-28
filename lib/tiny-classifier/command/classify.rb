@@ -17,28 +17,28 @@ require "tiny-classifier/command/base"
 
 module TinyClassifier
   module Command
-  class Classify < Base
-    class << self
-      def run(argv=nil)
-        argv ||= ARGV.dup
-        classifier = new
-        classifier.parse_command_line_options(argv)
-        classifier.run
+    class Classify < Base
+      class << self
+        def run(argv=nil)
+          argv ||= ARGV.dup
+          classifier = new
+          classifier.parse_command_line_options(argv)
+          classifier.run
+        end
+      end
+
+      attr_writer :classifier
+
+      def run
+        if input.empty?
+          error("Error: No effective input.")
+          false
+        else
+          category = classifier.classify(input)
+          puts category.downcase
+          true
+        end
       end
     end
-
-    attr_writer :classifier
-
-    def run
-      if input.empty?
-        error("Error: No effective input.")
-        false
-      else
-        category = classifier.classify(input)
-        puts category.downcase
-        true
-      end
-    end
-  end
   end
 end

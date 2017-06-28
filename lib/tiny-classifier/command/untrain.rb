@@ -17,19 +17,19 @@ require "tiny-classifier/command/train"
 
 module TinyClassifier
   module Command
-  class Untrain < Train
-    def run(params)
-      @category = params[:category]
-      prepare_category
-      if input.empty?
-        error("Error: No effective input.")
-        false
-      else
-        classifier.untrain(@category, input)
-        save
-        true
+    class Untrain < Train
+      def run(params)
+        @category = params[:category]
+        prepare_category
+        if input.empty?
+          error("Error: No effective input.")
+          false
+        else
+          classifier.untrain(@category, input)
+          save
+          true
+        end
       end
     end
-  end
   end
 end
