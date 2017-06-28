@@ -27,8 +27,6 @@ module TinyClassifier
         end
       end
 
-      attr_writer :classifier
-
       def run
         if input.empty?
           error("Error: No effective input.")

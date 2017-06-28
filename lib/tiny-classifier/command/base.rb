@@ -24,6 +24,7 @@ module TinyClassifier
   module Command
     class Base
       attr_reader :tokenizer
+      attr_writer :classifier
 
       def initialize
         @categories = nil
