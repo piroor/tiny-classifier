@@ -47,7 +47,7 @@ module CommandTest
         assert_file_exist(last_temp_dir + "tc.ng-ok.dat")
       end
 
-      def test_long_mecab
+      def test_long_tokenizer_mecab
         run_command("日本語の文章") do
           TinyClassifier::Command::Train.run([
             "--categories=ok,ng",
@@ -59,7 +59,7 @@ module CommandTest
         assert_file_exist(last_temp_dir + "tc.ng-ok.dat")
       end
 
-      def test_short_mecab
+      def test_short_tokenizer_mecab
         run_command("日本語の文章") do
           TinyClassifier::Command::Train.run([
             "--categories=ok,ng",
