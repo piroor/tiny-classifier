@@ -79,6 +79,7 @@ module CommandTest
           ])
         end
         assert_fail
+        assert_error_message(TinyClassifier::NoInput.new.message)
         assert_file_not_exist(temp_dir + "tc.ng-ok.dat")
       end
 
@@ -89,6 +90,7 @@ module CommandTest
           ])
         end
         assert_fail
+        assert_error_message(TinyClassifier::NoCategories.new.message)
         assert_file_not_exist(temp_dir + "tc.ng-ok.dat")
       end
 
@@ -99,6 +101,7 @@ module CommandTest
           ])
         end
         assert_fail
+        assert_error_message(TinyClassifier::NoCategory.new.message)
         assert_file_not_exist(temp_dir + "tc.ng-ok.dat")
       end
 
@@ -110,6 +113,7 @@ module CommandTest
           ])
         end
         assert_fail
+        assert_error_message(TinyClassifier::InvalidCategory.new("unknown", %w(Ng Ok)).message)
         assert_file_not_exist(temp_dir + "tc.ng-ok.dat")
       end
 

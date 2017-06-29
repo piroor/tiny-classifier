@@ -96,6 +96,7 @@ module CommandTest
           ])
         end
         assert_fail
+        assert_error_message(TinyClassifier::NoCategories.new.message)
         assert_file_not_exist(temp_dir + "tc-classify-ng-ok")
       end
 
@@ -183,6 +184,7 @@ module CommandTest
           command.run
         end
         assert_fail
+        assert_error_message(TinyClassifier::NoTrainingData.new(temp_dir + "tc.ng-ok.dat").message)
       end
 
       def test_no_output_dir
@@ -197,6 +199,7 @@ module CommandTest
           command.run
         end
         assert_fail
+        assert_error_message(TinyClassifier::InvalidOutputDir.new(temp_dir + "missing").message)
       end
     end
   end
