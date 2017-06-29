@@ -18,24 +18,19 @@ require "tiny-classifier/command/base"
 module TinyClassifier
   module Command
     class Classify < Base
-      class << self
-        def run(argv=nil)
-          argv ||= ARGV.dup
-          classifier = new
-          classifier.parse_command_line_options(argv)
-          classifier.run
-        end
+      def initialize(argv=[])
+        super
+        parse_command_line_options(argv)
       end
 
       def run
-        if input.empty?
-          error("Error: No effective input.")
-          false
-        else
-          category = classifier.classify(input)
-          puts category.downcase
-          true
-        end
+        raise NoEffectiveInput.new if input.empty?
+
+        category = classifier.classify(input)
+        $stdout.puts(category.downcase)
+        true
+      rescue StandardError => error
+        handle_error(error)
       end
     end
   end
