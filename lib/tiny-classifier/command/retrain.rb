@@ -27,6 +27,7 @@ module TinyClassifier
       end
 
       def run
+        super
         prepare_categories
         raise NoEffectiveInput.new if input.empty?
 
@@ -40,16 +41,33 @@ module TinyClassifier
 
       private
       def prepare_categories
-        raise NoWrongCategory.new unless @wrong_category
-        @wrong_category = @categories.normalize(@wrong_category)
-        unless @categories.valid?(@wrong_category)
-          raise InvalidWrongCategory.new(@wrong_category, @categories.all)
+        begin
+          @wrong_category = prepare_category(@wrong_category)
+        rescue StandardError => error
+          case error
+          when NoCategory
+            raise NoWrongCategory.new
+          when InvalidCategory
+            raise InvalidWrongCategory.new(@wrong_category, @categories.all)
+          end
         end
 
-        raise NoCorrectCategory.new unless @correct_category
-        @correct_category = @categories.normalize(@correct_category)
-        unless @categories.valid?(@correct_category)
-          raise InvalidCorrectCategory.new(@correct_category, @categories.all)
+        begin
+          @correct_category = prepare_category(@correct_category)
+        rescue StandardError => error
+          case error
+          when NoCategory
+            raise NoWrongCategory.new
+          when InvalidCategory
+            raise InvalidWrongCategory.new(@wrong_category, @categories.all)
+          end
+        end
+
+        @correct_category = prepare_category(@correct_category)
+        raise NoCorrectCategory.new unless @wrong_category
+        @wrong_category = @categories.normalize(@wrong_category)
+        unless @categories.valid?(@wrong_category)
+          raise InvalidCorrectCategory.new(@wrong_category, @categories.all)
         end
 
         log("training as: #{@wrong_category} => #{@correct_category}")

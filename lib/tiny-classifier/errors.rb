@@ -20,6 +20,9 @@ module TinyClassifier
   class NoEffectiveInput < StandardError
   end
 
+  class NoCategories < StandardError
+  end
+
   class NoCategory < StandardError
   end
 

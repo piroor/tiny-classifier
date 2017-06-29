@@ -13,13 +13,22 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-require "tiny-classifier/command/train"
+require "tiny-classifier/command/base"
 
 module TinyClassifier
   module Command
-    class Untrain < Train
+    class Untrain < Base
+      def initialize(argv=[])
+        super
+        option_parser.banner += " CATEGORY"
+        *categories = parse_command_line_options(argv)
+        @category = categories.first
+      end
+
       def run
-        prepare_category
+        super
+        @category = prepare_category(@category)
+        log("untraining as: #{@category}")
         raise NoEffectiveInput.new if input.empty?
 
         classifier.untrain(@category, input)

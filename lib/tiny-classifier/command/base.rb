@@ -42,6 +42,12 @@ module TinyClassifier
         @verbose = false
       end
 
+      def run
+        raise NoCategories.new unless @categories
+      rescue StandardError => error
+        handle_error(error)
+      end
+
       def parse_command_line_options(command_line_options)
         option_parser.parse!(command_line_options)
       end
@@ -125,12 +131,25 @@ module TinyClassifier
         tokenized
       end
 
+      def prepare_category(category)
+        raise NoCategory.new unless category
+
+        category = @categories.normalize(category)
+
+        unless @categories.valid?(category)
+          raise InvalidCategory.new(category, @categories.all)
+        end
+        category
+      end
+
       def handle_error(error)
         case error
         when NoInput
           error("Error: No input. You need to give any input via the STDIN.")
         when NoEffectiveInput
           error("Error: No effective input.")
+        when NoCategories
+          error("Error: You need to specify categories.")
         when NoCategory
           error("Error: You need to specify a category for the input.")
         when InvalidCategory

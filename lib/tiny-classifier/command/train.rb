@@ -26,7 +26,9 @@ module TinyClassifier
       end
 
       def run
-        prepare_category
+        super
+        @category = prepare_category(@category)
+        log("training as: #{@category}")
         raise NoEffectiveInput.new if input.empty?
 
         classifier.train(@category, input)
@@ -34,19 +36,6 @@ module TinyClassifier
         true
       rescue StandardError => error
         handle_error(error)
-      end
-
-      private
-      def prepare_category
-        raise NoCategory.new unless @category
-
-        @category = @categories.normalize(@category)
-
-        unless @categories.valid?(@category)
-          raise InvalidCategory.new(@category, @categories.all)
-        end
-
-        log("training as: #{@category}")
       end
     end
   end

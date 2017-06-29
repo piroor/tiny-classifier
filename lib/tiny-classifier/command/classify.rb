@@ -24,6 +24,7 @@ module TinyClassifier
       end
 
       def run
+        super
         raise NoEffectiveInput.new if input.empty?
 
         category = classifier.classify(input)
