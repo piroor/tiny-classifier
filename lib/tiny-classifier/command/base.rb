@@ -154,6 +154,10 @@ module TinyClassifier
           error("Error: You need to specify a category for the input.")
         when InvalidCategory
           error("Error: You need to specify one of valid categories: #{error.categories.join(", ")}")
+        when NoTrainingData
+          error("Error: There is no training data in #{@data_dir}.")
+        when InvalidOutputDir
+          error("Error: #{@output_dir} is not available as the output directory.")
         end
         false
       end
