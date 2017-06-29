@@ -22,8 +22,8 @@ module CommandTestUtils
     @working_dir = Dir.pwd
     Dir.chdir(temp_dir)
     $stdin = StringIO.new(input) if input
-    $stdout = StringIO.new
-    $stderr = StringIO.new
+    $stdout = stdout
+    $stderr = stderr
 
     @exit_status = yield
 
@@ -37,11 +37,21 @@ module CommandTestUtils
   def cleanup
     FileUtils.remove_entry_secure(@temp_dir) if @temp_dir
     @temp_dir = nil
+    @stdout = nil
+    @stderr = nil
   end
 
   private
   def temp_dir
     @temp_dir ||= Pathname(Dir.mktmpdir)
+  end
+
+  def stdout
+    @stdout ||= StringIO.new
+  end
+
+  def stderr
+    @stderr ||= StringIO.new
   end
 
   def read_training_result(command)
@@ -64,6 +74,11 @@ module CommandTestUtils
 
   def assert_file_not_exist(path)
     assert_false(Pathname(path).exist?)
+  end
+
+  def assert_classified_as(category)
+    stdout.rewind
+    assert_equal(category.strip, stdout.read.strip)
   end
 
   def term(term)
