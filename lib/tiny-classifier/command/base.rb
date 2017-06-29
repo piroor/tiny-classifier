@@ -42,6 +42,14 @@ module TinyClassifier
         @classifier ||= prepare_classifier
       end
 
+      def data_file_name
+        "tc.#{@categories.basename}.dat"
+      end
+
+      def data_file_path
+        @data_file_path ||= prepare_data_file_path
+      end
+
       private
       def option_parser
         @option_parser ||= create_option_parser
@@ -71,14 +79,6 @@ module TinyClassifier
         end
 
         parser
-      end
-
-      def data_file_name
-        "tc.#{@categories.basename}.dat"
-      end
-
-      def data_file_path
-        @data_file_path ||= prepare_data_file_path
       end
 
       def prepare_data_file_path
