@@ -184,6 +184,20 @@ module CommandTest
         end
         assert_fail
       end
+
+      def test_no_output_dir
+        prepare_training_data
+        command = nil
+        run_command do
+          command = TinyClassifier::Command::GenerateClassifier.new([
+            "--categories=ok,ng",
+            "--tokenizer=mecab",
+            "--output-dir=#{temp_dir + "missing"}"
+          ])
+          command.run
+        end
+        assert_fail
+      end
     end
   end
 end
