@@ -18,47 +18,52 @@ require "tempfile"
 require "pathname"
 
 module CommandTestUtils
-  def common_setup
-    @temp_dir = Pathname(Dir.mktmpdir)
+  def run_command(input = nil, &block)
+    temp_dirs << Pathname(Dir.mktmpdir)
     @working_dir = Dir.pwd
-    Dir.chdir(@temp_dir)
+    Dir.chdir(last_temp_dir)
+    $stdin = StringIO.new(input) if input
     $stdout = StringIO.new
     $stderr = StringIO.new
-  end
 
-  def setup
-    common_setup
-  end
+    @exit_status = yield
 
-  def common_teardown
     Dir.chdir(@working_dir)
-    FileUtils.remove_entry_secure(@temp_dir)
-    @temp_dir = nil
     @working_dir = nil
     $stdin = STDIN
     $stdout = STDOUT
     $stderr = STDERR
   end
 
-  def teardown
-    common_teardown
+  def cleanup
+    temp_dirs.each do |dir|
+      FileUtils.remove_entry_secure(dir)
+    end
+    temp_dirs.clear
   end
 
   private
-  def set_input(input)
-    $stdin = StringIO.new(input)
+  def temp_dirs
+    @temp_dirs ||= []
   end
 
-  def data_file_path
-    categories = @categories.collect(&:downcase).sort.join("-")
-    @temp_dir + "tc.#{categories}.dat"
+  def last_temp_dir
+    temp_dirs.last
   end
 
-  def assert_data_file_exist
-    assert_true(data_file_path.exist?)
+  def assert_success
+    assert_true(@exit_status)
   end
 
-  def assert_data_file_not_exist
-    assert_false(data_file_path.exist?)
+  def assert_fail
+    assert_false(@exit_status)
+  end
+
+  def assert_file_exist(path)
+    assert_true(Pathname(path).exist?)
+  end
+
+  def assert_file_not_exist(path)
+    assert_false(Pathname(path).exist?)
   end
 end
