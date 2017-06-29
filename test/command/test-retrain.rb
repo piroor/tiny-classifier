@@ -153,6 +153,38 @@ module CommandTest
         end
         assert_fail
       end
+
+      def test_long_data_dir
+        data_dir = temp_dir + "sub_dir"
+        FileUtils.mkdir_p(data_dir)
+        run_command("foo bar bazz") do
+          TinyClassifier::Command::Retrain.run([
+            "--categories=ok,ng",
+            "--data-dir=#{data_dir.to_s}",
+            "ok",
+            "ng",
+          ])
+        end
+        assert_success
+        assert_file_exist(data_dir + "tc.ng-ok.dat")
+        assert_file_not_exist(temp_dir + "tc.ng-ok.dat")
+      end
+
+      def test_short_data_dir
+        data_dir = temp_dir + "sub_dir"
+        FileUtils.mkdir_p(data_dir)
+        run_command("foo bar bazz") do
+          TinyClassifier::Command::Retrain.run([
+            "--categories=ok,ng",
+            "-d", data_dir.to_s,
+            "ok",
+            "ng",
+          ])
+        end
+        assert_success
+        assert_file_exist(data_dir + "tc.ng-ok.dat")
+        assert_file_not_exist(temp_dir + "tc.ng-ok.dat")
+      end
     end
 
     class RetrainingResultTest < self

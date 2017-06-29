@@ -104,6 +104,30 @@ module CommandTest
         end
         assert_fail
       end
+
+      def test_long_data_dir
+        data_dir = temp_dir + "sub_dir"
+        FileUtils.mkdir_p(data_dir)
+        run_command("foo bar bazz") do
+          TinyClassifier::Command::Classify.run([
+            "--categories=ok,ng",
+            "--data-dir=#{data_dir.to_s}",
+          ])
+        end
+        assert_success
+      end
+
+      def test_short_data_dir
+        data_dir = temp_dir + "sub_dir"
+        FileUtils.mkdir_p(data_dir)
+        run_command("foo bar bazz") do
+          TinyClassifier::Command::Classify.run([
+            "--categories=ok,ng",
+            "-d", data_dir.to_s,
+          ])
+        end
+        assert_success
+      end
     end
 
     class ClassifyingResultTest < self
