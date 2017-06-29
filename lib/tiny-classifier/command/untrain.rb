@@ -30,6 +30,7 @@ module TinyClassifier
         @category = prepare_category(@category)
         log("untraining as: #{@category}")
         raise NoEffectiveInput.new if input.empty?
+        raise NoTrainingData.new unless data_file_path.exist?
 
         classifier.untrain(@category, input)
         save

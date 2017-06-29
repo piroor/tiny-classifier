@@ -46,4 +46,10 @@ module TinyClassifier
 
   class InvalidCorrectCategory < InvalidCategory
   end
+
+  class NoTrainingData < StandardError
+  end
+
+  class InvalidOutputDir < StandardError
+  end
 end

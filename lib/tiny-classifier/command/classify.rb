@@ -26,6 +26,7 @@ module TinyClassifier
       def run
         super
         raise NoEffectiveInput.new if input.empty?
+        raise NoTrainingData.new unless data_file_path.exist?
 
         category = classifier.classify(input)
         $stdout.puts(category.downcase)
