@@ -34,6 +34,7 @@ module TinyClassifier
   
       def run
         super
+        FileUtils.mkdir_p(output_file_path.parent)
         File.open(output_file_path, "w") do |file|
           file.puts("#!/usr/bin/env ruby")
           file.puts("require \"base64\"")
@@ -67,8 +68,6 @@ module TinyClassifier
       end
   
       def prepare_encoded_classifier
-        FileUtils.mkdir_p(output_file_path.parent)
-
         classifier_code = Marshal.dump(classifier)
         Base64.strict_encode64(classifier_code)
       end
