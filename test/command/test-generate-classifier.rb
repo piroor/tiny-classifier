@@ -173,6 +173,17 @@ module CommandTest
         assert_success
         assert_classified_as("ok")
       end
+
+      def test_no_training_data
+        command = nil
+        run_command do
+          command = TinyClassifier::Command::GenerateClassifier.new([
+            "--categories=ok,ng",
+          ])
+          command.run
+        end
+        assert_fail
+      end
     end
   end
 end

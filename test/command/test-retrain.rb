@@ -244,6 +244,19 @@ module CommandTest
                        Ng: {} },
                     read_training_result(command))
       end
+
+      def test_no_training_data
+        command = nil
+        run_command("foo bar bazz") do
+          command = TinyClassifier::Command::Retrain.new([
+            "--categories=ok,ng",
+            "ok",
+            "ng",
+          ])
+          command.run
+        end
+        assert_fail
+      end
     end
   end
 end
