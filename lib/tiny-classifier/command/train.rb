@@ -21,19 +21,19 @@ module TinyClassifier
       class << self
         def run(argv=nil)
           argv ||= ARGV.dup
-          trainer = new
-          *categories = trainer.parse_command_line_options(argv)
-          trainer.run(category: categories.first)
+          trainer = new(argv)
+          trainer.run
         end
       end
 
-      def initialize
+      def initialize(argv=[])
         super
         option_parser.banner += " CATEGORY"
+        *categories = parse_command_line_options(argv)
+        @category = categories.first
       end
 
-      def run(params)
-        @category = params[:category]
+      def run
         prepare_category
         raise NoEffectiveInput.new if input.empty?
 

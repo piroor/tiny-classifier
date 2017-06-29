@@ -27,7 +27,7 @@ module TinyClassifier
       attr_reader :tokenizer
       attr_writer :classifier
 
-      def initialize
+      def initialize(argv=[])
         @categories = nil
         @tokenizer = Tokenizer.new
         @data_dir = Dir.pwd
