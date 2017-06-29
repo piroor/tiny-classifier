@@ -52,7 +52,9 @@ module CommandTestUtils
   end
 
   def read_training_result(command)
-    command.classifier.instance_variable_get('@categories')
+    data = File.read(command.data_file_path)
+    classifier = Marshal.load(data)
+    classifier.instance_variable_get('@categories')
   end
 
   def assert_success
@@ -69,5 +71,9 @@ module CommandTestUtils
 
   def assert_file_not_exist(path)
     assert_false(Pathname(path).exist?)
+  end
+
+  def term(term)
+    term.stem.intern
   end
 end

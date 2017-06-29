@@ -129,6 +129,36 @@ module CommandTest
                        Ng: {} },
                     read_training_result(command))
       end
+
+      def test_trained_with_mecab
+        command = nil
+        run_command("日本語のテキスト") do
+          command = TinyClassifier::Command::Train.new([
+            "--categories=ok,ng",
+            "--tokenizer=mecab",
+            "ok",
+          ])
+          command.run
+        end
+        assert_success
+        assert_equal({ Ok: {term("日本語") => 1,
+                            term("テキスト") => 1},
+                       Ng: {} },
+                    read_training_result(command))
+      end
+
+      def test_not_trained
+        command = nil
+        run_command("foo bar bazz") do
+          command = TinyClassifier::Command::Train.new([
+            "--categories=ok,ng",
+            "invalid",
+          ])
+          command.run
+        end
+        assert_fail
+        assert_file_not_exist(last_temp_dir + "tc.ng-ok.dat")
+      end
     end
   end
 end
