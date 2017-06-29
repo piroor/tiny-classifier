@@ -24,7 +24,7 @@ module CommandTest
       cleanup
     end
 
-    class Success < self
+    class InterfaceTest < self
       def test_long_categories
         run_command("foo bar bazz") do
           TinyClassifier::Command::Train.run([
@@ -70,9 +70,7 @@ module CommandTest
         assert_success
         assert_file_exist(last_temp_dir + "tc.ng-ok.dat")
       end
-    end
 
-    class Fail < self
       def test_no_input
         run_command do
           TinyClassifier::Command::Train.run([
