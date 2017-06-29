@@ -33,7 +33,7 @@ module CommandTest
           ])
         end
         assert_success
-        assert_file_exist(last_temp_dir + "tc.ng-ok.dat")
+        assert_file_exist(temp_dir + "tc.ng-ok.dat")
       end
 
       def test_short_categories
@@ -44,7 +44,7 @@ module CommandTest
           ])
         end
         assert_success
-        assert_file_exist(last_temp_dir + "tc.ng-ok.dat")
+        assert_file_exist(temp_dir + "tc.ng-ok.dat")
       end
 
       def test_long_tokenizer_mecab
@@ -56,7 +56,7 @@ module CommandTest
           ])
         end
         assert_success
-        assert_file_exist(last_temp_dir + "tc.ng-ok.dat")
+        assert_file_exist(temp_dir + "tc.ng-ok.dat")
       end
 
       def test_short_tokenizer_mecab
@@ -68,7 +68,7 @@ module CommandTest
           ])
         end
         assert_success
-        assert_file_exist(last_temp_dir + "tc.ng-ok.dat")
+        assert_file_exist(temp_dir + "tc.ng-ok.dat")
       end
 
       def test_no_input
@@ -79,7 +79,7 @@ module CommandTest
           ])
         end
         assert_fail
-        assert_file_not_exist(last_temp_dir + "tc.ng-ok.dat")
+        assert_file_not_exist(temp_dir + "tc.ng-ok.dat")
       end
 
       def test_no_categories
@@ -89,7 +89,7 @@ module CommandTest
           ])
         end
         assert_fail
-        assert_file_not_exist(last_temp_dir + "tc.ng-ok.dat")
+        assert_file_not_exist(temp_dir + "tc.ng-ok.dat")
       end
 
       def test_no_category
@@ -99,7 +99,7 @@ module CommandTest
           ])
         end
         assert_fail
-        assert_file_not_exist(last_temp_dir + "tc.ng-ok.dat")
+        assert_file_not_exist(temp_dir + "tc.ng-ok.dat")
       end
 
       def test_unknown_category
@@ -110,7 +110,7 @@ module CommandTest
           ])
         end
         assert_fail
-        assert_file_not_exist(last_temp_dir + "tc.ng-ok.dat")
+        assert_file_not_exist(temp_dir + "tc.ng-ok.dat")
       end
     end
 
@@ -157,7 +157,7 @@ module CommandTest
           command.run
         end
         assert_fail
-        assert_file_not_exist(last_temp_dir + "tc.ng-ok.dat")
+        assert_file_not_exist(temp_dir + "tc.ng-ok.dat")
       end
     end
   end

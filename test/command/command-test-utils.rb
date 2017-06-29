@@ -19,9 +19,8 @@ require "pathname"
 
 module CommandTestUtils
   def run_command(input = nil, &block)
-    temp_dirs << Pathname(Dir.mktmpdir)
     @working_dir = Dir.pwd
-    Dir.chdir(last_temp_dir)
+    Dir.chdir(temp_dir)
     $stdin = StringIO.new(input) if input
     $stdout = StringIO.new
     $stderr = StringIO.new
@@ -36,19 +35,13 @@ module CommandTestUtils
   end
 
   def cleanup
-    temp_dirs.each do |dir|
-      FileUtils.remove_entry_secure(dir)
-    end
-    temp_dirs.clear
+    FileUtils.remove_entry_secure(@temp_dir) if @temp_dir
+    @temp_dir = nil
   end
 
   private
-  def temp_dirs
-    @temp_dirs ||= []
-  end
-
-  def last_temp_dir
-    temp_dirs.last
+  def temp_dir
+    @temp_dir ||= Pathname(Dir.mktmpdir)
   end
 
   def read_training_result(command)
