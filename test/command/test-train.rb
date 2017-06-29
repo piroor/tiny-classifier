@@ -28,47 +28,47 @@ module CommandTest
       def test_long_categories
         run_command("foo bar bazz") do
           TinyClassifier::Command::Train.run([
-            "--categories=positive,negative",
-            "positive",
+            "--categories=ok,ng",
+            "ok",
           ])
         end
         assert_success
-        assert_file_exist(last_temp_dir + "tc.negative-positive.dat")
+        assert_file_exist(last_temp_dir + "tc.ng-ok.dat")
       end
 
       def test_short_categories
         run_command("foo bar bazz") do
           TinyClassifier::Command::Train.run([
-            "-c", "positive,negative",
-            "positive",
+            "-c", "ok,ng",
+            "ok",
           ])
         end
         assert_success
-        assert_file_exist(last_temp_dir + "tc.negative-positive.dat")
+        assert_file_exist(last_temp_dir + "tc.ng-ok.dat")
       end
 
       def test_long_mecab
         run_command("日本語の文章") do
           TinyClassifier::Command::Train.run([
-            "--categories=positive,negative",
+            "--categories=ok,ng",
             "--tokenizer=mecab",
-            "positive",
+            "ok",
           ])
         end
         assert_success
-        assert_file_exist(last_temp_dir + "tc.negative-positive.dat")
+        assert_file_exist(last_temp_dir + "tc.ng-ok.dat")
       end
 
       def test_short_mecab
         run_command("日本語の文章") do
           TinyClassifier::Command::Train.run([
-            "--categories=positive,negative",
+            "--categories=ok,ng",
             "-t", "mecab",
-            "positive",
+            "ok",
           ])
         end
         assert_success
-        assert_file_exist(last_temp_dir + "tc.negative-positive.dat")
+        assert_file_exist(last_temp_dir + "tc.ng-ok.dat")
       end
     end
 
@@ -76,43 +76,43 @@ module CommandTest
       def test_no_input
         run_command do
           TinyClassifier::Command::Train.run([
-            "--categories=positive,negative",
-            "positive",
+            "--categories=ok,ng",
+            "ok",
           ])
         end
         assert_fail
-        assert_file_not_exist(last_temp_dir + "tc.negative-positive.dat")
+        assert_file_not_exist(last_temp_dir + "tc.ng-ok.dat")
       end
 
       def test_no_categories
         run_command("foo bar bazz") do
           TinyClassifier::Command::Train.run([
-            "positive",
+            "ok",
           ])
         end
         assert_fail
-        assert_file_not_exist(last_temp_dir + "tc.negative-positive.dat")
+        assert_file_not_exist(last_temp_dir + "tc.ng-ok.dat")
       end
 
       def test_no_category
         run_command("foo bar bazz") do
           TinyClassifier::Command::Train.run([
-            "--categories=positive,negative",
+            "--categories=ok,ng",
           ])
         end
         assert_fail
-        assert_file_not_exist(last_temp_dir + "tc.negative-positive.dat")
+        assert_file_not_exist(last_temp_dir + "tc.ng-ok.dat")
       end
 
       def test_unknown_category
         run_command("foo bar bazz") do
           TinyClassifier::Command::Train.run([
-            "--categories=positive,negative",
+            "--categories=ok,ng",
             "unknown",
           ])
         end
         assert_fail
-        assert_file_not_exist(last_temp_dir + "tc.negative-positive.dat")
+        assert_file_not_exist(last_temp_dir + "tc.ng-ok.dat")
       end
     end
   end
