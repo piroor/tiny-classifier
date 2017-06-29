@@ -40,10 +40,12 @@ module TinyClassifier
           file.puts("require \"classifier-reborn\"")
           file.puts("require \"tiny-classifier/command/classify\"")
           file.puts("classifier_code = Base64.strict_decode64(\"#{encoded_classifier}\")")
-          file.puts("classify = TinyClassifier::Command::Classify.new")
-          file.puts("classify.classifier = Marshal.load(classifier_code)")
-          file.puts("classify.tokenizer.type = \"#{@tokenizer.type}\"")
-          file.puts("classify.run")
+          file.puts("command = TinyClassifier::Command::Classify.new([")
+          file.puts("  \"--categories=#{@categories.all.join(",")}\",")
+          file.puts("  \"--tokenizer=#{@tokenizer.type}\",")
+          file.puts("])")
+          file.puts("command.classifier = Marshal.load(classifier_code)")
+          file.puts("command.run")
         end
         FileUtils.chmod("a+x", output_file_path)
         true
