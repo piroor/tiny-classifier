@@ -144,20 +144,10 @@ module TinyClassifier
 
       def handle_error(error)
         case error
-        when NoInput
-          error("No input. You need to give any input via the STDIN.")
-        when NoEffectiveInput
-          error("No effective input.")
-        when NoCategories
-          error("You need to specify categories.")
-        when NoCategory
-          error("You need to specify a category for the input.")
-        when InvalidCategory
-          error("You need to specify one of valid categories: #{error.categories.join(", ")}")
-        when NoTrainingData
-          error("There is no training data in #{@data_dir}.")
-        when InvalidOutputDir
-          error("#{@output_dir} is not available as the output directory.")
+        when TinyClassifierError
+          error(error.message)
+        else
+          error(error.inspect)
         end
         false
       end

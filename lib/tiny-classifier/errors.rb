@@ -14,16 +14,31 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 module TinyClassifier
-  class NoInput < StandardError
+  class TinyClassifierError < StandardError
   end
 
-  class NoEffectiveInput < StandardError
+  class NoInput < TinyClassifierError
+    def message
+      "No input. You need to give any input via the STDIN."
+    end
   end
 
-  class NoCategories < StandardError
+  class NoEffectiveInput < TinyClassifierError
+    def message
+      "No effective input."
+    end
   end
 
-  class NoCategory < StandardError
+  class NoCategories < TinyClassifierError
+    def message
+      "You need to specify categories."
+    end
+  end
+
+  class NoCategory < TinyClassifierError
+    def message
+      "You need to specify a category for the input."
+    end
   end
 
   class NoWrongCategory < NoCategory
@@ -32,12 +47,16 @@ module TinyClassifier
   class NoCorrectCategory < NoCategory
   end
 
-  class InvalidCategory < StandardError
+  class InvalidCategory < TinyClassifierError
     attr_reader :category, :categories
 
     def initialize(category, categories)
       @category = category
       @categories = categories
+    end
+
+    def message
+      "You need to specify one of valid categories: #{@categories.join(", ")}"
     end
   end
 
@@ -47,9 +66,27 @@ module TinyClassifier
   class InvalidCorrectCategory < InvalidCategory
   end
 
-  class NoTrainingData < StandardError
+  class NoTrainingData < TinyClassifierError
+    attr_reader :data_dir
+
+    def initialize(data_dir)
+      @data_dir = data_dir
+    end
+
+    def message
+      "There is no training data at #{@data_dir}."
+    end
   end
 
-  class InvalidOutputDir < StandardError
+  class InvalidOutputDir < TinyClassifierError
+    attr_reader :output_dir
+
+    def initialize(output_dir)
+      @output_dir = output_dir
+    end
+
+    def message
+      "#{@output_dir} is not available as the output directory."
+    end
   end
 end

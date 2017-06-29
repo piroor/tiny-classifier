@@ -34,8 +34,12 @@ module TinyClassifier
   
       def run
         super
-        raise NoTrainingData.new unless data_file_path.exist?
-        raise InvalidOutputDir.new unless prepare_output_file_path.parent.exist?
+        unless data_file_path.exist?
+          raise NoTrainingData.new(data_file_path)
+        end
+        unless prepare_output_file_path.parent.exist?
+          raise InvalidOutputDir.new(prepare_output_file_path.parent)
+        end
 
         FileUtils.mkdir_p(output_file_path.parent)
         File.open(output_file_path, "w") do |file|

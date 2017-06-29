@@ -30,7 +30,7 @@ module TinyClassifier
         super
         prepare_categories
         raise NoEffectiveInput.new if input.empty?
-        raise NoTrainingData.new unless data_file_path.exist?
+        raise NoTrainingData.new(data_file_path) unless data_file_path.exist?
 
         classifier.untrain(@wrong_category, input)
         classifier.train(@correct_category, input)
