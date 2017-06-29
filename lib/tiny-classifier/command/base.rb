@@ -24,6 +24,14 @@ require "tiny-classifier/errors"
 module TinyClassifier
   module Command
     class Base
+      class << self
+        def run(argv=nil)
+          argv ||= ARGV.dup
+          command = new(argv)
+          command.run
+        end
+      end
+
       attr_reader :tokenizer
       attr_writer :classifier
 
@@ -94,6 +102,13 @@ module TinyClassifier
           Marshal.load(data)
         else
           ClassifierReborn::Bayes.new(*@categories.all)
+        end
+      end
+
+      def save
+        data = Marshal.dump(classifier)
+        File.open(data_file_path, "w") do |file|
+          file.write(data)
         end
       end
 

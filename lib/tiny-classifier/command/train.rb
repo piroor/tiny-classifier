@@ -18,14 +18,6 @@ require "tiny-classifier/command/base"
 module TinyClassifier
   module Command
     class Train < Base
-      class << self
-        def run(argv=nil)
-          argv ||= ARGV.dup
-          trainer = new(argv)
-          trainer.run
-        end
-      end
-
       def initialize(argv=[])
         super
         option_parser.banner += " CATEGORY"
@@ -55,13 +47,6 @@ module TinyClassifier
         end
 
         log("training as: #{@category}")
-      end
-
-      def save
-        data = Marshal.dump(classifier)
-        File.open(data_file_path, "w") do |file|
-          file.write(data)
-        end
       end
     end
   end
