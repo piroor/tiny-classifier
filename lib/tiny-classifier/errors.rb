@@ -42,9 +42,15 @@ module TinyClassifier
   end
 
   class NoWrongCategory < NoCategory
+    def message
+      "You need to specify a category to untrain the input."
+    end
   end
 
   class NoCorrectCategory < NoCategory
+    def message
+      "You need to specify a category to retrain the input."
+    end
   end
 
   class InvalidCategory < TinyClassifierError
@@ -61,9 +67,15 @@ module TinyClassifier
   end
 
   class InvalidWrongCategory < InvalidCategory
+    def message
+      "You need to specify one of valid categories to untrain: #{@categories.join(", ")}"
+    end
   end
 
   class InvalidCorrectCategory < InvalidCategory
+    def message
+      "You need to specify one of valid categories to retrain: #{@categories.join(", ")}"
+    end
   end
 
   class NoTrainingData < TinyClassifierError

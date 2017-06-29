@@ -50,6 +50,8 @@ module TinyClassifier
             raise NoWrongCategory.new
           when InvalidCategory
             raise InvalidWrongCategory.new(@wrong_category, @categories.all)
+          else
+            raise error
           end
         end
 
@@ -58,17 +60,12 @@ module TinyClassifier
         rescue StandardError => error
           case error
           when NoCategory
-            raise NoWrongCategory.new
+            raise NoCorrectCategory.new
           when InvalidCategory
-            raise InvalidWrongCategory.new(@wrong_category, @categories.all)
+            raise InvalidCorrectCategory.new(@correct_category, @categories.all)
+          else
+            raise error
           end
-        end
-
-        @correct_category = prepare_category(@correct_category)
-        raise NoCorrectCategory.new unless @wrong_category
-        @wrong_category = @categories.normalize(@wrong_category)
-        unless @categories.valid?(@wrong_category)
-          raise InvalidCorrectCategory.new(@wrong_category, @categories.all)
         end
 
         log("training as: #{@wrong_category} => #{@correct_category}")
