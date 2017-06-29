@@ -44,8 +44,6 @@ module TinyClassifier
 
       def run
         raise NoCategories.new unless @categories
-      rescue StandardError => error
-        handle_error(error)
       end
 
       def parse_command_line_options(command_line_options)
