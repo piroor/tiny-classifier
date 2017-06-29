@@ -113,5 +113,22 @@ module CommandTest
         assert_file_not_exist(last_temp_dir + "tc.ng-ok.dat")
       end
     end
+
+    class TrainingResultTest < self
+      def test_trained
+        command = nil
+        run_command("foo bar bazz") do
+          command = TinyClassifier::Command::Train.new([
+            "--categories=ok,ng",
+            "ok",
+          ])
+          command.run
+        end
+        assert_success
+        assert_equal({ Ok: {foo: 1, bar: 1, bazz: 1 },
+                       Ng: {} },
+                    read_training_result(command))
+      end
+    end
   end
 end

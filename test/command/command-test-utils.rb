@@ -51,6 +51,10 @@ module CommandTestUtils
     temp_dirs.last
   end
 
+  def read_training_result(command)
+    command.classifier.instance_variable_get('@categories')
+  end
+
   def assert_success
     assert_true(@exit_status)
   end
