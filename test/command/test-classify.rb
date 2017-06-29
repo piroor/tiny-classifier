@@ -94,6 +94,7 @@ module CommandTest
           ])
         end
         assert_fail
+        assert_error_message(TinyClassifier::NoInput.new.message)
       end
 
       def test_no_categories
@@ -103,6 +104,7 @@ module CommandTest
           ])
         end
         assert_fail
+        assert_error_message(TinyClassifier::NoCategories.new.message)
       end
 
       def test_long_data_dir
@@ -173,6 +175,7 @@ module CommandTest
           command.run
         end
         assert_fail
+        assert_error_message(TinyClassifier::NoTrainingData.new(temp_dir + "tc.ng-ok.dat").message)
       end
     end
   end

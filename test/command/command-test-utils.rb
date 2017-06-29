@@ -83,6 +83,11 @@ module CommandTestUtils
     assert_equal(category.strip, stdout.read.strip)
   end
 
+  def assert_error_message(expected)
+    stderr.rewind
+    assert_equal(expected.strip, stderr.read.strip)
+  end
+
   def term(term)
     term.stem.intern
   end
