@@ -25,13 +25,15 @@ module CommandTestUtils
     $stdout = stdout
     $stderr = stderr
 
+    begin
     @exit_status = yield
-
+    ensure
     Dir.chdir(@working_dir)
     @working_dir = nil
     $stdin = STDIN
     $stdout = STDOUT
     $stderr = STDERR
+    end
   end
 
   def cleanup
