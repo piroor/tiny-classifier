@@ -17,31 +17,42 @@ require "tiny-classifier/command/train"
 
 module TinyClassifier
   module Command
-    class Retrain < Train
-      class << self
-        def run(argv=nil)
-          argv ||= ARGV.dup
-          retrainer = new
-          *categories = retrainer.parse_command_line_options(argv)
-          retrainer.run(wrong: categories[0],
-                        correct: categories[1])
-        end
+    class Retrain < Base
+      def initialize(argv=[])
+        super
+        option_parser.banner += " WRONG CORRECT"
+        *categories = parse_command_line_options(argv)
+        @wrong_category = categories.shift
+        @correct_category = categories.shift
       end
 
-      def run(params)
-        if input.empty?
-          error("Error: No effective input.")
-          false
-        else
-          @category = params[:wrong]
-          prepare_category
-          classifier.untrain(@category, input)
-          @category = params[:correct]
-          prepare_category
-          classifier.train(@category, input)
-          save
-          true
+      def run
+        prepare_categories
+        raise NoEffectiveInput.new if input.empty?
+
+        classifier.untrain(@wrong_category, input)
+        classifier.train(@correct_category, input)
+        save
+        true
+      rescue StandardError => error
+        handle_error(error)
+      end
+
+      private
+      def prepare_categories
+        raise NoWrongCategory.new unless @wrong_category
+        @wrong_category = @categories.normalize(@wrong_category)
+        unless @categories.valid?(@wrong_category)
+          raise InvalidWrongCategory.new(@wrong_category, @categories.all)
         end
+
+        raise NoCorrectCategory.new unless @correct_category
+        @correct_category = @categories.normalize(@correct_category)
+        unless @categories.valid?(@correct_category)
+          raise InvalidCorrectCategory.new(@correct_category, @categories.all)
+        end
+
+        log("training as: #{@wrong_category} => #{@correct_category}")
       end
     end
   end

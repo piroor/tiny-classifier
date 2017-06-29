@@ -23,6 +23,12 @@ module TinyClassifier
   class NoCategory < StandardError
   end
 
+  class NoWrongCategory < NoCategory
+  end
+
+  class NoCorrectCategory < NoCategory
+  end
+
   class InvalidCategory < StandardError
     attr_reader :category, :categories
 
@@ -30,5 +36,11 @@ module TinyClassifier
       @category = category
       @categories = categories
     end
+  end
+
+  class InvalidWrongCategory < InvalidCategory
+  end
+
+  class InvalidCorrectCategory < InvalidCategory
   end
 end
