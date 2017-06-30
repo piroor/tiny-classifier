@@ -65,7 +65,7 @@ tc-classify-negative-positive
 positive
 ~~~
 
-Note: the generated classifier script is not distributable - it strongly depend on this `tiny-classifier` gem itself. If you need to deploy it to other computers, you need to install `tiny-classifier` gem even if you never run `tc-train` or other commands in the computer.
+Note: the generated classifier script is not distributable - it strongly depend on this `tiny-classifier` gem itself. If you need to deploy it to other computers, you also need to install `tiny-classifier` gem even if you never run `tc-train` or other training commands on the computer.
 
 ## Command line parameters
 
