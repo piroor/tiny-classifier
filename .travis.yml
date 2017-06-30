@@ -1,0 +1,5 @@
+language: ruby
+notifications:
+  recipients:
+    - piro.outsider.reflex@gmail.com
+
