@@ -1,5 +1,7 @@
 # README
 
+[![Build Status](https://travis-ci.org/piroor/tiny-classifier.svg?branch=master)](https://travis-ci.org/piroor/tiny-classifier)
+
 ## Name
 
 tiny-classifier
