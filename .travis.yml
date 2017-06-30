@@ -3,5 +3,5 @@ notifications:
   recipients:
     - piro.outsider.reflex@gmail.com
 before_install:
-  - curl https://gist.githubusercontent.com/dtan4/351d031bec0c3d45cd8f/raw/mecab_install.sh | bash
+  - curl https://gist.githubusercontent.com/ngs/0b5785020afca7701feab717c6a7603a/raw/mecab_install.sh | bash
 
