@@ -8,6 +8,8 @@ tiny-classifier
 
 On-memory text classifier command line tool, based on naive bayes.
 
+In other words, this is a wrapper for the [classifier-reborn](https://github.com/jekyll/classifier-reborn) library, to use it from other non-ruby programs e.g. [tweetbot.sh, a Twitter bot written in Bash script](https://github.com/piroor/tweetbot.sh).
+
 ## Install
 
 ```
@@ -54,7 +56,7 @@ If you think that the classifier has been enoughly trained, then you can generat
 % tc-generate-classifier --categories=positive,negative --output-dir=/path/to/dir
 ~~~
 
-Then a fixed classifier (executable Ruby script) will be generated as `tc-classify-negative-positive` (`tc-classify-` is the fixed prefix, rest is filled by given categories automatically.) 
+Then a fixed classifier (executable Ruby script) will be generated as `tc-classify-negative-positive` (`tc-classify-` is the fixed prefix, rest is filled by given categories automatically.)
 
 ~~~
 % ls /path/to/dir/
@@ -62,6 +64,8 @@ tc-classify-negative-positive
 % echo "Happy day?" | /path/to/dir/tc-classify-negative-positive
 positive
 ~~~
+
+Note: the generated classifier script is not distributable - it strongly depend on this `tiny-classifier` gem itself. If you need to deploy it to other computers, you need to install `tiny-classifier` gem even if you never run `tc-train` or other commands in the computer.
 
 ## Command line parameters
 
