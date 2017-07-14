@@ -15,7 +15,7 @@ In other words, this is a wrapper for the [classifier-reborn](https://github.com
 ## Install
 
 ```
-% sudo apt install ruby-dev gcc
+% sudo apt install ruby-dev build-essential
 % gem install tiny-classifier
 ```
 
