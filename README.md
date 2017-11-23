@@ -19,7 +19,7 @@ In other words, this is a wrapper for the [classifier-reborn](https://github.com
 % gem install tiny-classifier
 ```
 
-If you hope to use `--tokenizer=mecab`, you need to install MeCab like:
+If you want to use `--tokenizer=mecab`, you need to install MeCab like:
 
 ```
 % sudo apt install mecab mecab-ipadic-utf8
