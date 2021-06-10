@@ -1,6 +1,6 @@
 # README
 
-[![Build Status](https://travis-ci.org/piroor/tiny-classifier.svg?branch=trunk)](https://travis-ci.org/piroor/tiny-classifier)
+![Build Status](https://github.com/piroor/tiny-classifier/actions/workflows/main.yml/badge.svg?branch=trunk)
 
 ## Name
 
